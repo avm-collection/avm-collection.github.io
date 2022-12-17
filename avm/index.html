@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>AVM collection</title>
+		<link rel="stylesheet" href="/style.css">
+	</head>
+
+	<body>
+		<header>
+			<h1 class="title">AVM</h1>
+			<ul class="tabs">
+				<li class="unselected tab">
+					<a class="tab-link" href="/">Home</a>
+				</li>
+				<li class="unselected tab">
+					<a class="tab-link" href="/install">Install</a>
+				</li>
+				<li class="selected tab">
+					<a class="tab-link" href="/avm">AVM</a>
+				</li>
+				<li class="unselected tab">
+					<a class="tab-link" href="/anasm">ANASM</a>
+				</li>
+			</ul>
+
+			<a id="github" href="https://github.com/avm-collection/avm" target="_blank">
+				<img width="30px" src="/res/github.png"></img>
+			</a>
+		</header>
+		<main>
+			<h1>What is AVM?</h1>
+			<p>
+				AVM is a
+				<a href="https://en.wikipedia.org/wiki/Stack-oriented_programming" target="_blank">stack based</a>
+				virtual machine written in
+				<a href="https://en.wikipedia.org/wiki/C_(programming_language)">C</a>
+				similar to
+				<a href="https://en.wikipedia.org/wiki/Java_virtual_machine" target="_blank">JVM</a>.
+				It is open source like all AVM collection projects, so you can view the source code
+				<a href="https://github.com/avm-collection/avm">here</a>.
+			</p>
+
+			<h1>Installing</h1>
+			<p>
+				You can use the
+				<a href="/install">AVM installer</a>
+				to install both AVM and ANASM
+			</p>
+
+			<h2>Pre-compiled binaries</h2>
+			<p>At the moment, there are no pre-compiled binaries available for AVM. You will have to compile from source</p>
+
+			<h2>Compiling from source</h2>
+			<p>To compile from source, git clone the github repo and run make:</p>
+			<pre><code>$ git clone https://github.com/avm-collection/avm
+$ make
+$ make install</code></pre>
+			<p>then verify the installation</p>
+			<pre><code>$ avm -v</code></pre>
+
+			<h1>Documentation</h1>
+			<p>Coming soon.</p>
+		</main>
+		<footer>
+			<img width="60px" src="/res/icon.png" style="float: right"></img>
+			<p class="footer-text" style="display: inline">
+				All AVM collection projects are licensed under the
+				<a href="https://github.com/avm-collection/avm-collection.github.io/blob/main/LICENSE" target="_blank">
+					GPL License
+				</a>
+			</p>
+
+			<p class="footer-text" style="font-size: 15px; margin-top: 5px">
+				Made with
+				<span style="font-weight: bold; color: #ef3858"><3</span>
+			</p>
+		</footer>
+	</body>
+</html>

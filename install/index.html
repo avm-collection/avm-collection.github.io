@@ -9,10 +9,10 @@
 		<header>
 			<h1 class="title">AVM collection</h1>
 			<ul class="tabs">
-				<li class="selected tab">
+				<li class="unselected tab">
 					<a class="tab-link" href="/">Home</a>
 				</li>
-				<li class="unselected tab">
+				<li class="selected tab">
 					<a class="tab-link" href="/install">Install</a>
 				</li>
 				<li class="unselected tab">
@@ -23,23 +23,30 @@
 				</li>
 			</ul>
 
-			<a id="github" href="https://github.com/avm-collection" target="_blank">
+			<a id="github" href="https://github.com/avm-collection/installer" target="_blank">
 				<img width="30px" src="/res/github.png"></img>
 			</a>
 		</header>
 		<main>
-			<h1>Welcome</h1>
-			<p>
-				AVM collection is a collection of all projects related to the
-				<a href="./avm/index.html">AVM virtual machine</a>.
-			</p>
+			<h1>Installing</h1>
 
-			<div style="margin-top: 40px" class="center">
-				<a href="https://github.com/avm-collection/anasm/blob/main/examples/fib.anasm">
-					A fibonacci number sequence calculator in ANASM v1.12 running in AVM v1.11
-				</a>
-				<img style="margin-top: 10px" class="img" width="90%" src="/res/avm-anasm-screenshot.png"></img>
-			</div>
+			<h2>Linux</h2>
+			<p>
+				On linux, you can use the installer github repo which contains the makefile that
+				installs the projects
+			</p>
+			<pre><code>$ git clone https://github.com/avm-collection/installer
+$ cd installer
+$ make && make install</code></pre>
+			<p>then verify the installation</p>
+			<pre><code>$ avm -v
+$ anasm -v</code></pre>
+
+			<h2>Windows</h2>
+			<p>
+				Windows is not fully supported yet, but you can use
+				<a href="https://learn.microsoft.com/en-us/windows/wsl/" target="_blank">WSL</a>
+			</p>
 		</main>
 		<footer>
 			<img width="60px" src="/res/icon.png" style="float: right"></img>

@@ -1,8 +1,149 @@
 body {
-	background-color: #181818;
+	background-color: #333640;
 	font-family:      Arial, sans-serif;
+
+	max-width: 860px;
+
+	margin-left:  auto;
+	margin-right: auto;
+	border:  0px;
 }
 
-p, h1 {
-	color: #FFFFFF;
+.title {
+	color: #efefefdd;
+
+	text-align: center;
+	font-size:  70px;
+
+	margin-top:    15px;
+	margin-bottom: 5px;
+}
+
+code {
+	padding:       10px;
+    display:       block;
+    border-radius: 5px;
+
+	background-color: #333640;
+	font-family:      monospace;
+
+    width: calc(100% - 20px);
+}
+
+pre {
+    white-space: pre-wrap;
+}
+
+h1, h2, h3, p, code {
+	color: #efefefdd;
+}
+
+a:link {
+	color: #6595ea;
+}
+
+a:visited {
+	color: #ef62f0;
+}
+
+.img {
+	box-shadow:    2px 2px 15px #00000044;
+	border-radius: 5px;
+}
+
+.center {
+	text-align:   center;
+	display:      block;
+	margin-left:  auto;
+	margin-right: auto;
+}
+
+.tabs {
+	list-style: none;
+
+	display: flex;
+	padding: 0;
+	margin:  0;
+}
+
+.selected {
+	background-color: #222128;
+}
+
+.unselected {
+	background-color: #11101488;
+}
+
+.tab {
+	font-size:   18px;
+	margin-left: 10px;
+	display:     inline;
+}
+
+.tab:hover {
+	background-color: #303443;
+}
+
+.tab-link {
+	text-decoration: none;
+
+	padding: 4px 20px 2px 20px;
+	display: inline-block;
+	width:   100%;
+	height:  100%;
+}
+
+.tab-link:link {
+	color: #efefefcc;
+}
+
+.tab-link:hover {
+	color: #efefefcc;
+}
+
+.tab-link:visited {
+	color: #efefefcc;
+}
+
+#github {
+	color:           #efefef;
+	text-decoration: none;
+	margin-top:      5px;
+
+	float: right;
+}
+
+.footer-text {
+	color: #b5b5bb;
+}
+
+header {
+	background-color: #b92633;
+	background:       url("./res/background.png");
+	background-size:  860px 597px;
+
+	border: 0px;
+
+	padding: 10px 10px 0px 10px;
+
+	box-shadow: 3px 3px 20px #00000066;
+}
+
+main {
+	background-color: #222128;
+
+	border:  0px;
+	padding: 20px;
+
+	box-shadow: 3px 3px 20px #00000066;
+}
+
+footer {
+	background-color: #111014;
+
+	border:   0px;
+	padding:  20px;
+	overflow: auto;
+
+	box-shadow: 3px 3px 20px #00000066;
 }
