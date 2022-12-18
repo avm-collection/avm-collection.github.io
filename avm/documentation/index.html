@@ -50,6 +50,14 @@
 								<li class="content"><a href="#cpy">W64</a></li>
 							</ul>
 						</li>
+						<li class="content"><a href="#file-operations">File operations</a>
+							<ul>
+								<li class="content"><a href="#ope">OPE</a></li>
+								<li class="content"><a href="#clo">CLO</a></li>
+								<li class="content"><a href="#wrf">WRF</a></li>
+								<li class="content"><a href="#rdf">RDF</a></li>
+							</ul>
+						</li>
 						<li class="content"><a href="#arithmetic">Arithmetic</a>
 							<ul>
 								<li class="content"><a href="#add">ADD</a></li>
@@ -126,6 +134,9 @@
 						<li class="content"><a href="#invalid-instruction-access">Invalid instruction access</a></li>
 						<li class="content"><a href="#invalid-memory-access">Invalid memory access</a></li>
 						<li class="content"><a href="#division-by-zero">Division by zero</a></li>
+						<li class="content"><a href="#reached-max-limit-of-files-open">Reached max limit of files open</a></li>
+						<li class="content"><a href="#invalid-file-mode">Invalid file mode</a></li>
+						<li class="content"><a href="#invalid-file-descriptor">Invalid file descriptor</a></li>
 					</ul>
 				</li>
 			</ul>
@@ -315,6 +326,68 @@
 				Similar to the
 				<a href="#w08">W08</a>
 				instruction, except this writes 8 bytes.
+			</p>
+
+			<h2 id="file-operations">File operations</h2>
+			<p>
+				Max 256 files can be opened at once
+			</p>
+
+			<h3 id="ope">OPE (<span class="inline-code">0x70</span>)</h3>
+			<p>
+				Opens a file. First, the mode is popped off the stack, and then the address of the
+				file name
+				<a href="strings">string</a>.
+				Then file descriptor is pushed onto the stack.
+			</p>
+			<p>
+				See the table of modes below
+			</p>
+
+			<table>
+				<tr>
+					<th>Mode (in binary)</th>
+					<th>Meaning</th>
+				</tr>
+				<tr>
+					<td><span class="inline-code">0b0001</span></td>
+					<td>Reading</td>
+				</tr>
+				<tr>
+					<td><span class="inline-code">0b0010</span></td>
+					<td>Writing</td>
+				</tr>
+				<tr>
+					<td><span class="inline-code">0b0100</span></td>
+					<td>Appending</td>
+				</tr>
+				<tr>
+					<td><span class="inline-code">0b1000</span></td>
+					<td>Binary</td>
+				</tr>
+			</table>
+			<p>
+				These modes can be combined.
+			</p>
+
+			<h3 id="clo">CLO (<span class="inline-code">0x71</span>)</h3>
+			<p>
+				Closes a file. The file descriptor of the file to close is popped off the top of
+				the stack
+			</p>
+
+			<h3 id="wrf">WRF (<span class="inline-code">0x72</span>)</h3>
+			<p>
+				Writes a byte to a file. First, the byte to write is popped off the stack, then the
+				file descriptor.
+			</p>
+
+			<h3 id="RDF">RDF (<span class="inline-code">0x73</span>)</h3>
+			<p>
+				Read a byte from a file. The file descriptor is popped off the stack, and the
+				read byte is pushed onto the stack. If the end of the file was reached,
+				<span class="inline-code">-1</span>
+				is pushed instead.
 			</p>
 
 			<h2 id="arithmetic">Arithmetic</h2>
@@ -572,6 +645,10 @@
 			</p>
 
 			<h2 id="debug">Debug</h2>
+			<p>
+				These instructions are unreliable, because they might not be exist for long, since
+				they are just for debugging.
+			</p>
 
 			<h3 id="dmp">DMP (<span class="inline-code">0xF0</span>)</h3>
 			<p>
@@ -648,6 +725,21 @@
 			<p>
 				This error happens when an integer is divided by zero (floating point number
 				division by zero wont cause this)
+			</p>
+
+			<h2 id="reached-max-limit-of-files-open">Reached max limit of files open (<span class="inline-code">0x09</span>)</h2>
+			<p>
+				This error happens when there are more files open than is allowed
+			</p>
+
+			<h2 id="invalid-file-mode">Invalid file mode (<span class="inline-code">0x0a</span>)</h2>
+			<p>
+				This error happens when the file mode is not writing, reading nor appending
+			</p>
+
+			<h2 id="invalid-file-descriptor">Invalid file descriptor (<span class="inline-code">0x0b</span>)</h2>
+			<p>
+				This error happens when there is no file open with such file descriptor
 			</p>
 		</main>
 		<footer>
