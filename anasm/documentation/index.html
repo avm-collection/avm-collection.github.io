@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>AVM collection</title>
+		<link rel="stylesheet" href="/style.css">
+	</head>
+
+	<body>
+		<header>
+			<h1 class="title">ANASM documentation</h1>
+
+			<ul class="tabs">
+				<li class="unselected tab">
+					<a class="tab-link" href="/anasm"><- Go back</a>
+				</li>
+			</ul>
+		</header>
+		<main>
+			<h1>Table of contents</h1>
+			<ul>
+				<li class="content"><a href="#instructions">Instructions</a></li>
+				<li class="content"><a href="#literals">Literals</a>
+					<ul>
+						<li class="content"><a href="#decimal">Decimal</a></li>
+						<li class="content"><a href="#hexadecimal">Hexadecimal</a></li>
+						<li class="content"><a href="#octal">Octal</a></li>
+						<li class="content"><a href="#binary">Binary</a></li>
+						<li class="content"><a href="#floating-point-numbers">Floating point numbers</a></li>
+						<li class="content"><a href="#ascii-characters">ASCII characters</a></li>
+						<li class="content"><a href="#strings">Strings</a>
+							<ul>
+								<li class="content"><a href="#escape-sequences">Escape sequences</a></li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+				<li class="content"><a href="#labels">Labels</a>
+					<ul>
+						<li class="content"><a href="#entry-point-label">Entry point label</a></li>
+					</ul>
+				</li>
+				<li class="content"><a href="#variables">Variables</a></li>
+				<li class="content"><a href="#comments">Comments</a></li>
+			</ul>
+
+			<h1 id="instructions">Instructions</h1>
+			<p>
+				All instructions in ANASM are 3 characters long. Their names are the same as
+				specified in the <a href="/avm/documentation">AVM documentation</a>, except they
+				are lower case.
+			</p>
+			<p>
+				Some instructions take a parameter. That parameter is written right after the
+				instruction, separated from the instruction by a space, like so
+			</p>
+			<pre><code>INST PARAMETER</code></pre>
+
+			<h1 id="literals">Literals</h1>
+			<p>
+				Instruction parameters are all just numbers, but they are a bit abstracted in anasm.
+				One type of parameters are literals. Literals can be decimal integers, hexadecimal
+				integers, octal integers, binary data, floating point numbers or ascii characters.
+			</p>
+
+			<h2 id="decimal">Decimal</h2>
+			<p>
+				Decimal integers have no prefix, they are written like normal decimal integers
+			</p>
+			<pre><code>1024
+5
+256</code></pre>
+
+			<h2 id="hexadecimal">Hexadecimal</h2>
+			<p>
+				Hexadecimal integers are prefixed with
+				<span class="inline-code">0x</span>
+				or
+				<span class="inline-code">0X</span>,
+				and the letters in them can be both lower
+				or upper case
+			</p>
+			<pre><code>0xff
+0xEDA
+0X5AB4ED</code></pre>
+
+			<h2 id="octal">Octal</h2>
+			<p>
+				octal integers are prefixed with
+				<span class="inline-code">0o</span>
+				or
+				<span class="inline-code">0O</span>
+			</p>
+			<pre><code>0o7
+0O452</code></pre>
+
+			<h2 id="binary">Binary</h2>
+			<p>
+				Binary data is prefixed with
+				<span class="inline-code">0b</span>
+				or
+				<span class="inline-code">0B</span>
+			</p>
+			<pre><code>0b110
+0B11010</code></pre>
+
+			<h2 id="floating-point-numbers">Floating point numbers</h2>
+			<p>
+				Floating point numbers, similar to decimal integers, are written normally, with no
+				prefix, and the floating point is marked with a
+				<span class="inline-code">.</span>
+			</p>
+			<pre><code>3.14
+12.7</code></pre>
+
+			<h2 id="ascii-characters">ASCII characters</h2>
+			<p>
+				ASCII character literals are surrounded by
+				<span class="inline-code">'</span>
+				and
+				can only be a single character. There are exceptions - the escape sequences, which
+				are talked about later in the
+				<a href="#escape-sequences">strings escape sequences section</a>
+			</p>
+			<pre><code>'A'
+'$'</code></pre>
+
+			<h2 id="strings">Strings</h2>
+			<p>
+				String literals are special, because they cannot be passed as parameters to
+				instructions. They can only be assigned to variables. Strings are surrounded by
+				<span class="inline-code">"</span>
+				quotes
+			</p>
+			<pre><code>"Hello, world!"
+"How are you?"</code></pre>
+
+			<h3 id="escape-sequences">Escape sequences</h3>
+			<p>
+				Strings also have escape sequences, which are used for putting special ascii
+				characters that are not printable into the string, such as a newline or the carriage
+				return. These escape sequences start with a
+				<span class="inline-code">\</span>
+				and are two characters long (including the slash).
+				This is a table of the escape sequences and the bytes they turn into
+			</p>
+			<table>
+				<tr>
+					<th>Escape sequence</th>
+					<th>Value</th>
+				</tr>
+				<tr>
+					<td><span class="inline-code">\0</span></td>
+					<td>0x00</td>
+				</tr>
+				<tr>
+					<td><span class="inline-code">\a</span></td>
+					<td>0x07</td>
+				</tr>
+				<tr>
+					<td><span class="inline-code">\b</span></td>
+					<td>0x08</td>
+				</tr>
+				<tr>
+					<td><span class="inline-code">\e</span></td>
+					<td>0x1b</td>
+				</tr>
+				<tr>
+					<td><span class="inline-code">\f</span></td>
+					<td>0x0c</td>
+				</tr>
+				<tr>
+					<td><span class="inline-code">\n</span></td>
+					<td>0x0a</td>
+				</tr>
+				<tr>
+					<td><span class="inline-code">\r</span></td>
+					<td>0x0d</td>
+				</tr>
+				<tr>
+					<td><span class="inline-code">\t</span></td>
+					<td>0x09</td>
+				</tr>
+				<tr>
+					<td><span class="inline-code">\v</span></td>
+					<td>0x0b</td>
+				</tr>
+				<tr>
+					<td><span class="inline-code">\\</span></td>
+					<td>0x5c (<span class="inline-code">\</span>)</td>
+				</tr>
+				<tr>
+					<td><span class="inline-code">\"</span></td>
+					<td>0x22 (<span class="inline-code">"</span>)</td>
+				</tr>
+				<tr>
+					<td><span class="inline-code">\'</span></td>
+					<td>0x27 (<span class="inline-code">'</span>)</td>
+				</tr>
+			</table>
+			<p>
+				Example of escape sequences in a string
+			</p>
+			<pre><code>"Hello, world!\n"</code></pre>
+
+			<h1 id="labels">Labels</h1>
+			<p>
+				Another type of instruction parameters are labels. Labels mark a position in the
+				program (an instruction address), so we can jump to that position easily, without
+				having to manually calculate its address. When we create a label, we prefix it
+				with a
+				<span class="inline-code">.</span>
+				and then type the name after it
+			</p>
+			<pre><code>.my_label
+	psh 5</code></pre>
+			<p>
+				This label holds the address of the
+				<span class="inline-code">psh</span>
+				instruction right below it. To use this labels address, we reference it using the
+				<span class="inline-code">@</span>
+				prefix
+			</p>
+			<pre><code>jmp @my_label</code></pre>
+			<p>
+				Label names can only contain lower case or upper case ASCII letters, digits,
+				<span class="inline-code">_</span>
+				and
+				<span class="inline-code">$</span>
+			</p>
+
+			<h2 id="entry-point-label">Entry point label</h2>
+			<p>
+				A special kind of label is the entry point label, which is defined with
+			</p>
+			<pre><code>.entry</code></pre>
+			<p>
+				This label marks the start of the program - where the program will begin executing.
+			</p>
+
+			<h1 id="variables">Variables</h1>
+			<p>
+				Being able to write data to memory is nice, but manually keeping track of all the
+				addresses and stuff is painful. For automating this, ANASM has the
+				<span class="inline-code">let</span>
+				keyword, which is used to define variables that automatically calculate their
+				address in memory.
+			</p>
+			<p>
+				The syntax of the keyword is
+			</p>
+			<pre><code>let NAME ELEMENT_SIZE DATA</code></pre>
+			<p>
+				where
+				<span class="inline-code">NAME</span>
+				is the name of the variable that we will use to reference it (variable names can
+				only contain the same characters as label names),
+				<span class="inline-code">ELEMENT_SIZE</span>
+				is the size of a single element and
+				<span class="inline-code">DATA</span>
+				is a list of the data it holds. The possible element sizes are below
+			</p>
+			<table>
+				<tr>
+					<th>Keyword</th>
+					<th>Size (in bytes)</th>
+				</tr>
+				<tr>
+					<td><span class="inline-code">sz8</span></td>
+					<td>1</td>
+				</tr>
+				<tr>
+					<td><span class="inline-code">sz16</span></td>
+					<td>2</td>
+				</tr>
+				<tr>
+					<td><span class="inline-code">sz32</span></td>
+					<td>4</td>
+				</tr>
+				<tr>
+					<td><span class="inline-code">sz64</span></td>
+					<td>8</td>
+				</tr>
+			</table>
+			<p>
+				The data list elements are separated with a
+				<span class="inline-code">,</span>
+				and can be anything of the
+				<a href="#literals">literals</a>
+				(including strings). Example of a valid variable
+			</p>
+			<pre><code> let ABC sz8 'a', 'b', 'c'</code></pre>
+			<p>
+				This variable will be 3 bytes in total, because it contains 3 data elements each of
+				the size 1 byte
+				(<span class="inline-code">sz8</span>)
+			</p>
+			<p>
+				Using the variables data addresses is the same as with
+				<a href="#labels">labels</a>,
+				prefixed with a
+				<span class="inline-code">@</span>
+			</p>
+			<pre><code>psh @ABC
+r08
+prt</code></pre>
+
+			<h1 id="comments">Comments</h1>
+			<p>
+				Comments are an important part of assembly, because without them you will probably
+				forget how any of the code works. Comments start with a
+				<span class="inline-code">#</span>
+				and last until the end of the line
+			</p>
+			<pre><code># Hello, i am a comment!</code></pre>
+		</main>
+		<footer>
+			<img width="60px" src="/res/icon.png" style="float: right"></img>
+			<p class="footer-text" style="display: inline">
+				All AVM collection projects are licensed under the
+				<a href="https://github.com/avm-collection/avm-collection.github.io/blob/main/LICENSE" target="_blank">
+					GPL License
+				</a>
+			</p>
+
+			<p class="footer-text" style="font-size: 15px; margin-top: 5px">
+				Made with
+				<span style="font-weight: bold; color: #ef3858"><3</span>
+			</p>
+		</footer>
+	</body>
+</html>

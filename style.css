@@ -9,6 +9,26 @@ body {
 	border:  0px;
 }
 
+table {
+	margin-left:  auto;
+	margin-right: auto;
+}
+
+table, th, td {
+	border: 2px solid #4b4e59;
+	border-collapse: collapse;
+}
+
+th {
+	background-color: #333640;
+	padding:          5px 10px 5px 10px;
+}
+
+td {
+	background-color: #222128;
+	padding:          5px 10px 5px 10px;
+}
+
 .title {
 	color: #efefefdd;
 
@@ -17,6 +37,15 @@ body {
 
 	margin-top:    15px;
 	margin-bottom: 5px;
+}
+
+.inline-code {
+	font-size: 15px;
+	font-weight: bold;
+	color:     #f56f40;
+
+	background-color: #333640;
+	font-family:      monospace;
 }
 
 code {
@@ -34,8 +63,13 @@ pre {
     white-space: pre-wrap;
 }
 
-h1, h2, h3, p, code {
+h1, h2, h3, p, code, th, td {
 	color: #efefefdd;
+}
+
+.content {
+	color:     #efefefdd;
+	font-size: 17px
 }
 
 a:link {

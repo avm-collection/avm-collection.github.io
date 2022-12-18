@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>AVM collection</title>
+		<link rel="stylesheet" href="/style.css">
+	</head>
+
+	<body>
+		<header>
+			<h1 class="title">AVM documentation</h1>
+
+			<ul class="tabs">
+				<li class="unselected tab">
+					<a class="tab-link" href="/avm"><- Go back</a>
+				</li>
+			</ul>
+		</header>
+		<main>
+			<h1>Table of contents</h1>
+			<ul>
+				<li class="content"><a href="#stack">Stack</a></li>
+				<li class="content"><a href="#memory">Memory</a></li>
+				<li class="content"><a href="#call-stack">Call stack</a></li>
+				<li class="content"><a href="#executable-format">Executable format</a></li>
+				<li class="content"><a href="#instructions">Instructions</a>
+					<ul>
+						<li class="content"><a href="#stack-operations">Stack operations</a>
+							<ul>
+								<li class="content"><a href="#psh">PSH</a></li>
+								<li class="content"><a href="#pop">POP</a></li>
+
+								<li class="content"><a href="#dup">DUP</a></li>
+								<li class="content"><a href="#swp">SWP</a></li>
+								<li class="content"><a href="#emp">EMP</a></li>
+							</ul>
+						</li>
+						<li class="content"><a href="#memory-operations">Memory operations</a>
+							<ul>
+								<li class="content"><a href="#r08">R08</a></li>
+								<li class="content"><a href="#r16">R16</a></li>
+								<li class="content"><a href="#r32">R32</a></li>
+								<li class="content"><a href="#r64">R64</a></li>
+
+								<li class="content"><a href="#w08">W08</a></li>
+								<li class="content"><a href="#w16">W16</a></li>
+								<li class="content"><a href="#w32">W32</a></li>
+								<li class="content"><a href="#w64">W64</a></li>
+
+								<li class="content"><a href="#set">W64</a></li>
+								<li class="content"><a href="#cpy">W64</a></li>
+							</ul>
+						</li>
+						<li class="content"><a href="#arithmetic">Arithmetic</a>
+							<ul>
+								<li class="content"><a href="#add">ADD</a></li>
+								<li class="content"><a href="#sub">SUB</a></li>
+								<li class="content"><a href="#mul">MUL</a></li>
+								<li class="content"><a href="#div">DIV</a></li>
+								<li class="content"><a href="#mod">MOD</a></li>
+								<li class="content"><a href="#inc">INC</a></li>
+								<li class="content"><a href="#dec">DEC</a></li>
+
+								<li class="content"><a href="#fad">FAD</a></li>
+								<li class="content"><a href="#fsb">FSB</a></li>
+								<li class="content"><a href="#fmu">FMU</a></li>
+								<li class="content"><a href="#fdi">FDI</a></li>
+								<li class="content"><a href="#fin">FIN</a></li>
+								<li class="content"><a href="#fde">FDE</a></li>
+
+								<li class="content"><a href="#neg">NEG</a></li>
+							</ul>
+						</li>
+						<li class="content"><a href="#logic">Logic</a>
+							<ul>
+								<li class="content"><a href="#jmp">JMP</a></li>
+								<li class="content"><a href="#jnz">JNZ</a></li>
+								<li class="content"><a href="#cal">CAL</a></li>
+								<li class="content"><a href="#ret">RET</a></li>
+
+								<li class="content"><a href="#equ">EQU</a></li>
+								<li class="content"><a href="#neq">NEQ</a></li>
+								<li class="content"><a href="#grt">GRT</a></li>
+								<li class="content"><a href="#geq">GEQ</a></li>
+								<li class="content"><a href="#les">LES</a></li>
+								<li class="content"><a href="#leq">LEQ</a></li>
+
+								<li class="content"><a href="#ueq">UEQ</a></li>
+								<li class="content"><a href="#une">UNE</a></li>
+								<li class="content"><a href="#ugr">UGR</a></li>
+								<li class="content"><a href="#ugq">UGQ</a></li>
+								<li class="content"><a href="#ule">ULE</a></li>
+								<li class="content"><a href="#ulq">ULQ</a></li>
+
+								<li class="content"><a href="#feq">FEQ</a></li>
+								<li class="content"><a href="#fne">FNE</a></li>
+								<li class="content"><a href="#fgr">FGR</a></li>
+								<li class="content"><a href="#fgq">FGQ</a></li>
+								<li class="content"><a href="#fle">FLE</a></li>
+								<li class="content"><a href="#flq">FLQ</a></li>
+
+								<li class="content"><a href="#not">NOT</a></li>
+							</ul>
+						</li>
+						<li class="content"><a href="#debug">Debug</a>
+							<ul>
+								<li class="content"><a href="#dmp">DMP</a></li>
+								<li class="content"><a href="#prt">PRT</a></li>
+								<li class="content"><a href="#fpr">FPR</a></li>
+							</ul>
+						</li>
+						<li class="content"><a href="#other">Other</a>
+							<ul>
+								<li class="content"><a href="#hlt">HLT</a></li>
+								<li class="content"><a href="#nop">NOP</a></li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+				<li class="content"><a href="#runtime-errors">Runtime errors</a>
+					<ul>
+						<li class="content"><a href="#stack-overflow">Stack overflow</a></li>
+						<li class="content"><a href="#stack-underflow">Stack underflow</a></li>
+						<li class="content"><a href="#call-stack-overflow">Call stack overflow</a></li>
+						<li class="content"><a href="#call-stack-underflow">Call stack underflow</a></li>
+						<li class="content"><a href="#invalid-instruction">Invalid instruction</a></li>
+						<li class="content"><a href="#invalid-instruction-access">Invalid instruction access</a></li>
+						<li class="content"><a href="#invalid-memory-access">Invalid memory access</a></li>
+						<li class="content"><a href="#division-by-zero">Division by zero</a></li>
+					</ul>
+				</li>
+			</ul>
+
+			<h1 id="stack">Stack</h1>
+			<p>
+				Since AVM is a
+				<a href="https://en.wikipedia.org/wiki/Stack-oriented_programming" target="_blank">stack based</a>
+				VM, it has a stack which is the main part of the VM.
+				All the operations are done on the stack (arithmetic, logic...).
+			</p>
+			<p>
+				The stack holds words, which are 64 bit integers (since AVM is 64 bit), but they
+				can also be interpreted as floats when needed.
+			</p>
+			<p>
+				Its 65536 bytes in size (thats 8192 words, which should be enough for everyone).
+				The stack is indexed by the stack pointer register, which points to the top element
+				of the stack. This register (as all the other registers) cannot be directly
+				modified, but there are instructions that modify it internally.
+			</p>
+
+			<h1 id="memory">Memory</h1>
+			<p>
+				The stack is used for operations and temporary data, but we also need to store data
+				for a longer time somewhere. Thats what the memory is for.
+			</p>
+			<p>
+				It holds bytes (8 bit integers) and is 1048576 bytes in size. Even tho it
+				holds only 8 bit integers, we can store 16, 32 and 64 bit integers in it too using
+				the appropriate instructions.
+			</p>
+			<p>
+				The first byte of the memory is ignored, because its address is 0, which is used
+				for null pointers.
+			</p>
+
+			<h1 id="call-stack">Call stack</h1>
+			<p>
+				The call stack is similar to the normal stack, but its only for pushing instruction
+				addresses. Specifically, the
+				<a href="#cal">CAL</a>
+				and
+				<a href="#ret">RET</a>
+				instructions use the call stack.
+			</p>
+
+			<h1 id="executable-format">Executable format</h1>
+			<p>
+				AVM can, of course, read programs from a file. These files have a special structure.
+			</p>
+			<p>
+				The top of the file on unix can contain a
+				<a href="https://en.wikipedia.org/wiki/Shebang_(Unix)" target="_blank">shebang</a>
+				so we can simply just execute this file as a normal program.
+			</p>
+
+			<p>
+				The first part of the actual structure is the header. It begins with a "magic"
+				sequence of 3 bytes that form the string
+				<span class="inline-code">AVM</span>,
+				which basically says that this is an AVM executable file.
+			</p>
+			<p>
+				The next 3 bytes are the major, minor and patch version, in order. These specify for
+				which AVM version this executable is. AVM will usually warn if the major version is
+				different, or if the minor version of the executable is greater than the minor
+				version of AVM. Patch is usually ignored.
+			</p>
+			<p>
+				After this follow 3 words (64 bit integers) stored in the little-endian format.
+				First one is the size of the program (the count of the instructions), second one is
+				the size of the initial memory segment (in bytes) and the third one is the entry
+				point of the program - the instruction at which the program starts.
+			</p>
+			<p>
+				The header ends here, and the memory segment begins. The size of the memory segment
+				was specified in the header. This segment is for initializing the memory with some
+				default values, for example strings.
+			</p>
+			<p>
+				After the memory segment comes the program itself - the list of the instructions.
+				The instruction format is later described
+				<a href="#instructions">here</a>
+			</p>
+			<p>
+				All data after the end of the instruction list is ignored.
+			</p>
+
+			<h1 id="instructions">Instructions</h1>
+			<p>
+				Instructions are 9 bytes in size. The first byte is the opcode of the instruction, and
+				the following 8 bytes is a parameter - some data again stored in the little-endian
+				format.
+			</p>
+			<p>
+				Each instruction also has a name assigned, which has to be 3 characters in
+				length. The available instructions are sorted by type and described below.
+			</p>
+
+			<h2 id="stack-operations">Stack operations</h2>
+
+			<h3 id="psh">PSH (<span class="inline-code">0x10</span>)</h3>
+			<p>
+				Push some constant data on the stack. The data to push is the
+				parameter of the instruction.
+			</p>
+
+			<h3 id="psh">POP (<span class="inline-code">0x11</span>)</h3>
+			<p>
+				Pop off the top of the stack. Takes no parameters.
+			</p>
+
+			<h3 id="dup">DUP (<span class="inline-code">0x50</span>)</h3>
+			<p>
+				Duplicate an element on the stack. The parameter is an offset from the top of the
+				stack. So if the offset is 0, this instruction duplicates the top element. If its
+				1, it duplicates the element below the top element, and so on.
+			</p>
+
+			<h3 id="swp">SWP (<span class="inline-code">0x51</span>)</h3>
+			<p>
+				Swap an element with the top of the stack. The parameter is an offset that works
+				the same as the
+				<a href="#dup">DUP</a>
+				instruction offset.
+			</p>
+
+			<h3 id="emp">EMP (<span class="inline-code">0x52</span>)</h3>
+			<p>
+				Checks if the stack is empty. Pushes 1 to the stack if it is, and 0 if its not.
+			</p>
+
+			<h2 id="memory-operations">Memory operations</h2>
+
+			<h3 id="r08">R08 (<span class="inline-code">0x60</span>)</h3>
+			<p>
+				Reads a byte from the memory. The address of the data is popped off from the top of
+				the stack, and the data that was read is pushed onto the stack.
+			</p>
+
+			<h3 id="r16">R16 (<span class="inline-code">0x61</span>)</h3>
+			<p>
+				Similar to the
+				<a href="#r08">R08</a>
+				instruction, except this reads 2 bytes.
+			</p>
+
+			<h3 id="r32">R32 (<span class="inline-code">0x62</span>)</h3>
+			<p>
+				Similar to the
+				<a href="#r08">R08</a>
+				instruction, except this reads 4 bytes.
+			</p>
+
+			<h3 id="r64">R64 (<span class="inline-code">0x63</span>)</h3>
+			<p>
+				Similar to the
+				<a href="#r08">R08</a>
+				instruction, except this reads 8 bytes.
+			</p>
+
+			<h3 id="w08">W08 (<span class="inline-code">0x64</span>)</h3>
+			<p>
+				Writes a byte in the memory. First the data to write is popped off the stack, and
+				then the address of where to write.
+			</p>
+
+			<h3 id="w16">W16 (<span class="inline-code">0x65</span>)</h3>
+			<p>
+				Similar to the
+				<a href="#w08">W08</a>
+				instruction, except this writes 2 bytes.
+			</p>
+
+			<h3 id="w32">W32 (<span class="inline-code">0x65</span>)</h3>
+			<p>
+				Similar to the
+				<a href="#w08">W08</a>
+				instruction, except this writes 4 bytes.
+			</p>
+
+			<h3 id="w64">W64 (<span class="inline-code">0x65</span>)</h3>
+			<p>
+				Similar to the
+				<a href="#w08">W08</a>
+				instruction, except this writes 8 bytes.
+			</p>
+
+			<h2 id="arithmetic">Arithmetic</h2>
+
+			<h3 id="add">ADD (<span class="inline-code">0x20</span>)</h3>
+			<p>
+				Adds together two integers. Second integer is popped off the top of the stack, and
+				then the first one. The result is pushed onto the stack.
+			</p>
+
+			<h3 id="sub">SUB (<span class="inline-code">0x21</span>)</h3>
+			<p>
+				Similar to the
+				<a href="#add">ADD</a>
+				instruction, except this subtracts two integers.
+			</p>
+
+			<h3 id="mul">MUL (<span class="inline-code">0x22</span>)</h3>
+			<p>
+				Similar to the
+				<a href="#add">ADD</a>
+				instruction, except this subtracts two integers.
+			</p>
+
+			<h3 id="div">DIV (<span class="inline-code">0x23</span>)</h3>
+			<p>
+				Similar to the
+				<a href="#add">ADD</a>
+				instruction, except this divides two integers.
+			</p>
+
+			<h3 id="mod">MOD (<span class="inline-code">0x24</span>)</h3>
+			<p>
+				Similar to the
+				<a href="#add">ADD</a>
+				instruction, except this is modulus
+			</p>
+
+			<h3 id="inc">INC (<span class="inline-code">0x25</span>)</h3>
+			<p>
+				Increments the top of the stack as an integer by 1
+			</p>
+
+			<h3 id="dec">DEC (<span class="inline-code">0x26</span>)</h3>
+			<p>
+				Decrements the top of the stack as an integer by 1
+			</p>
+
+			<h3 id="fad">FAD (<span class="inline-code">0x27</span>)</h3>
+			<p>
+				Same as the
+				<a href="#add">ADD</a>
+				instruction, but for floating point numbers
+			</p>
+
+			<h3 id="fsb">FSB (<span class="inline-code">0x28</span>)</h3>
+			<p>
+				Same as the
+				<a href="#sub">SUB</a>
+				instruction, but for floating point numbers
+			</p>
+
+			<h3 id="fmu">FMU (<span class="inline-code">0x29</span>)</h3>
+			<p>
+				Same as the
+				<a href="#mul">MUL</a>
+				instruction, but for floating point numbers
+			</p>
+
+			<h3 id="fdi">FDI (<span class="inline-code">0x2a</span>)</h3>
+			<p>
+				Same as the
+				<a href="#div">DIV</a>
+				instruction, but for floating point numbers
+			</p>
+
+			<h3 id="fin">FIN (<span class="inline-code">0x2b</span>)</h3>
+			<p>
+				Same as the
+				<a href="#inc">INC</a>
+				instruction, but for floating point numbers
+			</p>
+
+			<h3 id="fde">FDE (<span class="inline-code">0x2c</span>)</h3>
+			<p>
+				Same as the
+				<a href="#dec">DEC</a>
+				instruction, but for floating point numbers
+			</p>
+
+			<h3 id="neg">NEG (<span class="inline-code">0x2d</span>)</h3>
+			<p>
+				Negates the top of the stack
+			</p>
+
+			<h2 id="logic">Logic</h2>
+
+			<h3 id="jmp">JMP (<span class="inline-code">0x30</span>)</h3>
+			<p>
+				Jumps to an instruction. The address of the instruction to jump to is the parameter
+				of the instruction.
+			</p>
+
+			<h3 id="jnz">JNZ (<span class="inline-code">0x31</span>)</h3>
+			<p>
+				Similar to the
+				<a href="#jmp">JMP</a>
+				instruction, except this pops off the top of the stack and only jumps if its not
+				equal to zero.
+			</p>
+
+			<h3 id="cal">CAL (<span class="inline-code">0x38</span>)</h3>
+			<p>
+				Similar to the
+				<a href="#jmp">JMP</a>
+				instruction, but this also pushes the address of where to return (the next
+				instruction) onto the call stack
+			</p>
+
+			<h3 id="ret">RET (<span class="inline-code">0x39</span>)</h3>
+			<p>
+				Pop off the top address of the call stack and jump to it
+			</p>
+
+			<h3 id="equ">EQU (<span class="inline-code">0x32</span>)</h3>
+			<p>
+				Checks if two signed integers are equal. The second integer is popped off the top
+				of the stack, and then the first one.
+			</p>
+
+			<h3 id="neq">NEQ (<span class="inline-code">0x33</span>)</h3>
+			<p>
+				Similar to the
+				<a href="#equ">EQU</a>
+				instruction, except this checks if the integers are not equal
+			</p>
+
+			<h3 id="grt">GRT (<span class="inline-code">0x34</span>)</h3>
+			<p>
+				Similar to the
+				<a href="#equ">EQU</a>
+				instruction, except this checks if the first integer is greater than the second one
+			</p>
+
+			<h3 id="geq">GEQ (<span class="inline-code">0x35</span>)</h3>
+			<p>
+				Similar to the
+				<a href="#equ">EQU</a>
+				instruction, except this checks if the first integer is greater than or equal to
+				the second one
+			</p>
+
+			<h3 id="les">LES (<span class="inline-code">0x36</span>)</h3>
+			<p>
+				Similar to the
+				<a href="#equ">EQU</a>
+				instruction, except this checks if the first integer is less than the second one
+			</p>
+
+			<h3 id="leq">LEQ (<span class="inline-code">0x37</span>)</h3>
+			<p>
+				Similar to the
+				<a href="#equ">EQU</a>
+				instruction, except this checks if the first integer is less than or equal to
+				the second one
+			</p>
+
+			<h3 id="ueq">UEQ (<span class="inline-code">0x3a</span>)</h3>
+			<p>
+				Same as the
+				<a href="#equ">EQU</a>
+				instruction, except this compares two unsigned integers
+			</p>
+
+			<h3 id="une">UNE (<span class="inline-code">0x3b</span>)</h3>
+			<p>
+				Same as the
+				<a href="#neq">NEQ</a>
+				instruction, except this compares two unsigned integers
+			</p>
+
+			<h3 id="ugr">UGR (<span class="inline-code">0x3c</span>)</h3>
+			<p>
+				Same as the
+				<a href="#grt">GRT</a>
+				instruction, except this compares two unsigned integers
+			</p>
+
+			<h3 id="ugq">UGQ (<span class="inline-code">0x3d</span>)</h3>
+			<p>
+				Same as the
+				<a href="#geq">GEQ</a>
+				instruction, except this compares two unsigned integers
+			</p>
+
+			<h3 id="ule">ULE (<span class="inline-code">0x3e</span>)</h3>
+			<p>
+				Same as the
+				<a href="#les">LES</a>
+				instruction, except this compares two unsigned integers
+			</p>
+
+			<h3 id="ulq">ULQ (<span class="inline-code">0x3f</span>)</h3>
+			<p>
+				Same as the
+				<a href="#leq">LEQ</a>
+				instruction, except this compares two unsigned integers
+			</p>
+
+			<h3 id="feq">FEQ (<span class="inline-code">0x40</span>)</h3>
+			<p>
+				Same as the
+				<a href="#equ">EQU</a>
+				instruction, except this compares two floating point numbers
+			</p>
+
+			<h3 id="fne">FNE (<span class="inline-code">0x41</span>)</h3>
+			<p>
+				Same as the
+				<a href="#neq">NEQ</a>
+				instruction, except this compares two floating point numbers
+			</p>
+
+			<h3 id="fgr">FGR (<span class="inline-code">0x42</span>)</h3>
+			<p>
+				Same as the
+				<a href="#grt">GRT</a>
+				instruction, except this compares two floating point numbers
+			</p>
+
+			<h3 id="fgq">FGQ (<span class="inline-code">0x43</span>)</h3>
+			<p>
+				Same as the
+				<a href="#geq">GEQ</a>
+				instruction, except this compares two floating point numbers
+			</p>
+
+			<h3 id="fle">FLE (<span class="inline-code">0x44</span>)</h3>
+			<p>
+				Same as the
+				<a href="#les">LES</a>
+				instruction, except this compares two floating point numbers
+			</p>
+
+			<h3 id="flq">FLQ (<span class="inline-code">0x45</span>)</h3>
+			<p>
+				Same as the
+				<a href="#leq">LEQ</a>
+				instruction, except this compares two floating point numbers
+			</p>
+
+			<h3 id="not">NOT (<span class="inline-code">0x2e</span>)</h3>
+			<p>
+				If the top of the stack is 0, it sets it to 1. Else it sets it to 0
+			</p>
+
+			<h2 id="debug">Debug</h2>
+
+			<h3 id="dmp">DMP (<span class="inline-code">0xF0</span>)</h3>
+			<p>
+				Dumps the registers, stack, call stack and the current instruction address
+			</p>
+
+			<h3 id="prt">PRT (<span class="inline-code">0xF1</span>)</h3>
+			<p>
+				Pops off the top of the stack and prints it as a signed integer, adding a new line
+				after
+			</p>
+
+			<h3 id="fpr">FPR (<span class="inline-code">0xF2</span>)</h3>
+			<p>
+				Pops off the top of the stack and prints it as a floating point number, adding a
+				new line after
+			</p>
+
+			<h2 id="other">Other</h2>
+
+			<h3 id="hlt">HLT (<span class="inline-code">0xFF</span>)</h3>
+			<p>
+				Halts the virtual machine. Pops off the top of the stack and uses it as the program
+				exitcode
+			</p>
+
+			<h3 id="nop">NOP (<span class="inline-code">0x00</span>)</h3>
+			<p>
+				Does nothing.
+			</p>
+
+			<h1 id="instructions">Runtime errors</h1>
+
+			<h2 id="stack-overflow">Stack overflow (<span class="inline-code">0x01</span>)</h2>
+			<p>
+				This error happens when the stack pointer is greater or equal to the max stack size
+			</p>
+
+			<h2 id="stack-underflow">Stack underflow (<span class="inline-code">0x02</span>)</h2>
+			<p>
+				This error happens when the stack is empty and an instruction attempts to pop off
+				the top of the stack
+			</p>
+
+			<h2 id="call-stack-overflow">Call stack overflow (<span class="inline-code">0x03</span>)</h2>
+			<p>
+				This error happens when the call stack pointer is greater or equal to the max call
+				stack size
+			</p>
+
+			<h2 id="call-stack-underflow">Call stack underflow (<span class="inline-code">0x04</span>)</h2>
+			<p>
+				This error happens when the call stack is empty and an instruction attempts to pop off
+				the top of the call stack
+			</p>
+
+			<h2 id="invalid-instruction">Invalid instruction (<span class="inline-code">0x05</span>)</h2>
+			<p>
+				This error happens when an unknown instruction (undefined opcode) is found
+			</p>
+
+			<h2 id="invalid-instruction-access">Invalid instruction access (<span class="inline-code">0x06</span>)</h2>
+			<p>
+				This error happens when an instruction attempts to jump outside of the program
+			</p>
+
+			<h2 id="invalid-memory-access">Invalid memory access (<span class="inline-code">0x07</span>)</h2>
+			<p>
+				This error happens when an instruction attempts to write/read from memory beyond
+				the last byte of the memory
+			</p>
+
+			<h2 id="division-by-zero">Division by zero (<span class="inline-code">0x08</span>)</h2>
+			<p>
+				This error happens when an integer is divided by zero (floating point number
+				division by zero wont cause this)
+			</p>
+		</main>
+		<footer>
+			<img width="60px" src="/res/icon.png" style="float: right"></img>
+			<p class="footer-text" style="display: inline">
+				All AVM collection projects are licensed under the
+				<a href="https://github.com/avm-collection/avm-collection.github.io/blob/main/LICENSE" target="_blank">
+					GPL License
+				</a>
+			</p>
+
+			<p class="footer-text" style="font-size: 15px; margin-top: 5px">
+				Made with
+				<span style="font-weight: bold; color: #ef3858"><3</span>
+			</p>
+		</footer>
+	</body>
+</html>
