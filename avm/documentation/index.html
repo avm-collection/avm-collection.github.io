@@ -251,7 +251,9 @@
 				Swap an element with the top of the stack. The parameter is an offset that works
 				the same as the
 				<a href="#dup">DUP</a>
-				instruction offset.
+				instruction offset, except that its shifted by one; offset 0 means that it swaps
+				the top element with the element below the top element, and offset 1 means it swaps
+				the top element with the element below the element below the top element, and so on.
 			</p>
 
 			<h3 id="emp">EMP (<span class="inline-code">0x52</span>)</h3>
