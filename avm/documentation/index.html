@@ -139,6 +139,7 @@
 						<li class="content"><a href="#invalid-file-descriptor">Invalid file descriptor</a></li>
 					</ul>
 				</li>
+				<li class="content"><a href="#strings">Strings</a></li>
 			</ul>
 
 			<h1 id="stack">Stack</h1>
@@ -337,7 +338,7 @@
 			<p>
 				Opens a file. First, the mode is popped off the stack, and then the address of the
 				file name
-				<a href="strings">string</a>.
+				<a href="#strings">string</a>.
 				Then file descriptor is pushed onto the stack.
 			</p>
 			<p>
@@ -646,7 +647,7 @@
 
 			<h2 id="debug">Debug</h2>
 			<p>
-				These instructions are unreliable, because they might not be exist for long, since
+				These instructions are unreliable, because they might not exist for long, since
 				they are just for debugging.
 			</p>
 
@@ -740,6 +741,13 @@
 			<h2 id="invalid-file-descriptor">Invalid file descriptor (<span class="inline-code">0x0b</span>)</h2>
 			<p>
 				This error happens when there is no file open with such file descriptor
+			</p>
+
+			<h1 id="strings">Strings</h1>
+			<p>
+				AVM does not use the C-style strings (null terminated), but instead it has its own
+				format. The first 8 bytes of a string is an integer that tells the size of the
+				string, and the following bytes are the string itself, without a null terminator.
 			</p>
 		</main>
 		<footer>
