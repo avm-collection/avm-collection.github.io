@@ -56,6 +56,7 @@
 								<li class="content"><a href="#clo">CLO</a></li>
 								<li class="content"><a href="#wrf">WRF</a></li>
 								<li class="content"><a href="#rdf">RDF</a></li>
+								<li class="content"><a href="#szf">SZF</a></li>
 							</ul>
 						</li>
 						<li class="content"><a href="#arithmetic">Arithmetic</a>
@@ -139,7 +140,6 @@
 						<li class="content"><a href="#invalid-file-descriptor">Invalid file descriptor</a></li>
 					</ul>
 				</li>
-				<li class="content"><a href="#strings">Strings</a></li>
 			</ul>
 
 			<h1 id="stack">Stack</h1>
@@ -336,10 +336,11 @@
 
 			<h3 id="ope">OPE (<span class="inline-code">0x70</span>)</h3>
 			<p>
-				Opens a file. First, the mode is popped off the stack, and then the address of the
-				file name
-				<a href="#strings">string</a>.
-				Then file descriptor is pushed onto the stack.
+				Opens a file. First, the mode is popped off the stack, then the length of the file
+				name and then the address of the file name string.
+				If there was an error while opening the file,
+				<span class="inline-code">-1</span>
+				is pushed onto the stack, otherwise the file descriptor is pushed onto the stack.
 			</p>
 			<p>
 				See the table of modes below
@@ -379,16 +380,32 @@
 
 			<h3 id="wrf">WRF (<span class="inline-code">0x72</span>)</h3>
 			<p>
-				Writes a byte to a file. First, the byte to write is popped off the stack, then the
-				file descriptor.
+				Writes a buffer to a file. First, the file descriptor is popped off the stack, then
+				the size (in bytes) of the buffer to write, and then the address of the buffer.
+				If there was an error while writing,
+				<span class="inline-code">0</span>
+				is pushed onto the
+				stack. Otherwise
+				<span class="inline-code">1</span>
+				is pushed.
 			</p>
 
-			<h3 id="RDF">RDF (<span class="inline-code">0x73</span>)</h3>
+			<h3 id="rdf">RDF (<span class="inline-code">0x73</span>)</h3>
 			<p>
-				Read a byte from a file. The file descriptor is popped off the stack, and the
-				read byte is pushed onto the stack. If the end of the file was reached,
-				<span class="inline-code">-1</span>
-				is pushed instead.
+				Read a byte from a file. First, the file descriptor is popped off the stack, then
+				the size (in bytes) of the read, and then the address of buffer to read into.
+				If there was an error while reading, or the EOF was reached,
+				<span class="inline-code">0</span>
+				is pushed onto the
+				stack. Otherwise
+				<span class="inline-code">1</span>
+				is pushed.
+			</p>
+
+			<h3 id="szf">SZF (<span class="inline-code">0x74</span>)</h3>
+			<p>
+				Get the file size. The file descriptor is popped off the stack, and the size is
+				pushed onto the stack.
 			</p>
 
 			<h2 id="arithmetic">Arithmetic</h2>
@@ -741,13 +758,6 @@
 			<h2 id="invalid-file-descriptor">Invalid file descriptor (<span class="inline-code">0x0b</span>)</h2>
 			<p>
 				This error happens when there is no file open with such file descriptor
-			</p>
-
-			<h1 id="strings">Strings</h1>
-			<p>
-				AVM does not use the C-style strings (null terminated), but instead it has its own
-				format. The first 8 bytes of a string is an integer that tells the size of the
-				string, and the following bytes are the string itself, without a null terminator.
 			</p>
 		</main>
 		<footer>
