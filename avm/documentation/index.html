@@ -24,6 +24,8 @@
 				<li class="content"><a href="#executable-format">Executable format</a></li>
 				<li class="content"><a href="#instructions">Instructions</a>
 					<ul>
+						<li class="content"><a href="#instruction-documentation-format">Instruction documentation format</a></li>
+
 						<li class="content"><a href="#stack-operations">Stack operations</a>
 							<ul>
 								<li class="content"><a href="#psh">PSH</a></li>
@@ -238,27 +240,92 @@
 				length. The available instructions are sorted by type and described below.
 			</p>
 
+			<h2 id="instruction-documentation-format">Instruction documentation format</h2>
+			<p>
+				Parameters are the values required on the stack for the instruction to work.
+				The right-most parameter is the one at the top of the stack.
+			</p>
+			<p>
+				Return values are the values pushed onto the stack by the instruction.
+				The right-most return value is the one that was pushed the last.
+			</p>
+			<p>
+				The parameter and return values are gonna be in a single line under the instruction
+				title, parameters being on the left and return values on the right, separated by a
+				<span class="inline-code">→</span>.
+				Both parameters and return values are gonna have the format
+				<span class="inline-code">NAME: TYPE</span>,
+				separated from others by a comma.
+				See the table of types below
+			</p>
+
+			<table>
+				<tr>
+					<th>Type</th>
+					<th>Description</th>
+				</tr>
+				<tr>
+					<td><span class="inline-code">u64</span></td>
+					<td>An unsigned 64bit integer</td>
+				</tr>
+				<tr>
+					<td><span class="inline-code">i64</span></td>
+					<td>A signed 64bit integer</td>
+				</tr>
+				<tr>
+					<td><span class="inline-code">f64</span></td>
+					<td>A 64bit floating point number</td>
+				</tr>
+				<tr>
+					<td><span class="inline-code">bool</span></td>
+					<td>A true/false (1/0) value</td>
+				</tr>
+				<tr>
+					<td><span class="inline-code">any</span></td>
+					<td>Any 64bit data</td>
+				</tr>
+			</table>
+			<p>
+				If a
+				<span class="inline-code">bool</span>
+				value is anything other than 1 or 0, its interpreted as true.
+			</p>
+
+			<p>
+				If the instruction takes no parameters or returns nothing,
+				<span class="inline-code">-</span>
+				is written on the corresponding side.
+			</p>
+
 			<h2 id="stack-operations">Stack operations</h2>
 
 			<h3 id="psh">PSH (<span class="inline-code">0x10</span>)</h3>
+			<p><span class="inline-code">-</span> → <span class="inline-code">pushed: any</span></p>
+
 			<p>
 				Push some constant data on the stack. The data to push is the
 				parameter of the instruction.
 			</p>
 
 			<h3 id="psh">POP (<span class="inline-code">0x11</span>)</h3>
+			<p><span class="inline-code">data: any</span> → <span class="inline-code">-</span></p>
+
 			<p>
-				Pop off the top of the stack. Takes no parameters.
+				Pop off <span class="inline-code">data</span>
 			</p>
 
 			<h3 id="dup">DUP (<span class="inline-code">0x50</span>)</h3>
+			<p><span class="inline-code">-</span> → <span class="inline-code">duped: any</span></p>
+
 			<p>
 				Duplicate an element on the stack. The parameter is an offset from the top of the
-				stack. So if the offset is 0, this instruction duplicates the top element. If its
+				stack. If the offset is 0, this instruction duplicates the top element. If its
 				1, it duplicates the element below the top element, and so on.
 			</p>
 
 			<h3 id="swp">SWP (<span class="inline-code">0x51</span>)</h3>
+			<p><span class="inline-code">top_value: any</span> → <span class="inline-code">swped: any</span></p>
+
 			<p>
 				Swap an element with the top of the stack. The parameter is an offset that works
 				the same as the
@@ -269,19 +336,27 @@
 			</p>
 
 			<h3 id="emp">EMP (<span class="inline-code">0x52</span>)</h3>
+			<p><span class="inline-code">-</span> → <span class="inline-code">empty: bool</span></p>
+
 			<p>
-				Checks if the stack is empty. Pushes 1 to the stack if it is, and 0 if its not.
+				Checks if the stack is empty. <span class="inline-code">empty</span> is true if
+				the stack is empty, otherwise false.
 			</p>
 
 			<h2 id="memory-operations">Memory operations</h2>
 
 			<h3 id="r08">R08 (<span class="inline-code">0x60</span>)</h3>
+			<p><span class="inline-code">addr: u64</span> → <span class="inline-code">read: any</span></p>
+
 			<p>
-				Reads a byte from the memory. The address of the data is popped off from the top of
-				the stack, and the data that was read is pushed onto the stack.
+				Reads a byte from the memory.
+				<span class="inline-code">addr</span> is the address of the byte,
+				<span class="inline-code">read</span> is the data read.
 			</p>
 
 			<h3 id="r16">R16 (<span class="inline-code">0x61</span>)</h3>
+			<p><span class="inline-code">addr: u64</span> → <span class="inline-code">read: any</span></p>\
+
 			<p>
 				Similar to the
 				<a href="#r08">R08</a>
@@ -289,6 +364,8 @@
 			</p>
 
 			<h3 id="r32">R32 (<span class="inline-code">0x62</span>)</h3>
+			<p><span class="inline-code">addr: u64</span> → <span class="inline-code">read: any</span></p>
+
 			<p>
 				Similar to the
 				<a href="#r08">R08</a>
@@ -296,6 +373,8 @@
 			</p>
 
 			<h3 id="r64">R64 (<span class="inline-code">0x63</span>)</h3>
+			<p><span class="inline-code">addr: u64</span> → <span class="inline-code">read: any</span></p>
+
 			<p>
 				Similar to the
 				<a href="#r08">R08</a>
@@ -303,12 +382,19 @@
 			</p>
 
 			<h3 id="w08">W08 (<span class="inline-code">0x64</span>)</h3>
+			<p><span class="inline-code">addr: u64</span>, <span class="inline-code">data: any</span> → <span class="inline-code">-</span></p>
+
 			<p>
-				Writes a byte in the memory. First the data to write is popped off the stack, and
-				then the address of where to write.
+				Writes a byte in the memory.
+				<span class="inline-code">data</span>
+				is the data to write and
+				<span class="inline-code">addr</span>
+				is the address of it in memory.
 			</p>
 
 			<h3 id="w16">W16 (<span class="inline-code">0x65</span>)</h3>
+			<p><span class="inline-code">addr: u64</span>, <span class="inline-code">data: any</span> → <span class="inline-code">-</span></p>
+
 			<p>
 				Similar to the
 				<a href="#w08">W08</a>
@@ -316,6 +402,8 @@
 			</p>
 
 			<h3 id="w32">W32 (<span class="inline-code">0x65</span>)</h3>
+			<p><span class="inline-code">addr: u64</span>, <span class="inline-code">data: any</span> → <span class="inline-code">-</span></p>
+
 			<p>
 				Similar to the
 				<a href="#w08">W08</a>
@@ -323,6 +411,8 @@
 			</p>
 
 			<h3 id="w64">W64 (<span class="inline-code">0x65</span>)</h3>
+			<p><span class="inline-code">addr: u64</span>, <span class="inline-code">data: any</span> → <span class="inline-code">-</span></p>
+
 			<p>
 				Similar to the
 				<a href="#w08">W08</a>
@@ -335,12 +425,20 @@
 			</p>
 
 			<h3 id="ope">OPE (<span class="inline-code">0x70</span>)</h3>
+			<p><span class="inline-code">name_addr: u64</span>, <span class="inline-code">name_len: u64</span>, <span class="inline-code">mode: any</span> → <span class="inline-code">fd: u64</span></p>
+
 			<p>
-				Opens a file. First, the mode is popped off the stack, then the length of the file
-				name and then the address of the file name string.
-				If there was an error while opening the file,
+				Opens a file.
+				<span class="inline-code">mode</span>
+				is the mode to open the file in,
+				<span class="inline-code">name_len</span>
+				is the length of the file name string and
+				<span class="inline-code">name_addr</span>
+				is the address in memory of the file name string.
+				<span class="inline-code">fd</span>
+				is
 				<span class="inline-code">-1</span>
-				is pushed onto the stack, otherwise the file descriptor is pushed onto the stack.
+				if an error occured while opening the file. Otherwise, its the file descriptor.
 			</p>
 			<p>
 				See the table of modes below
@@ -373,88 +471,134 @@
 			</p>
 
 			<h3 id="clo">CLO (<span class="inline-code">0x71</span>)</h3>
+			<p><span class="inline-code">fd: u64</span> → <span class="inline-code">-</span></p>
+
 			<p>
-				Closes a file. The file descriptor of the file to close is popped off the top of
-				the stack
+				Closes a file using the
+				<span class="inline-code">fd</span>
+				file descriptor.
 			</p>
 
 			<h3 id="wrf">WRF (<span class="inline-code">0x72</span>)</h3>
+			<p><span class="inline-code">addr: u64</span>, <span class="inline-code">size: u64</span>, <span class="inline-code">fd: u64</span> → <span class="inline-code">ok: bool</span></p>
+
 			<p>
-				Writes a buffer to a file. First, the file descriptor is popped off the stack, then
-				the size (in bytes) of the buffer to write, and then the address of the buffer.
-				If there was an error while writing,
-				<span class="inline-code">0</span>
-				is pushed onto the
-				stack. Otherwise
-				<span class="inline-code">1</span>
-				is pushed.
+				Writes a buffer to a file.
+				<span class="inline-code">fd</span>
+				is the file descriptor of the file to write to,
+				<span class="inline-code">size</span>
+				is the amount of the bytes to write and
+				<span class="inline-code">addr</span>
+				is the address of the bytes in memory.
+				If an error occured,
+				<span class="inline-code">ok</span>
+				is false, otherwise its true.
 			</p>
 
 			<h3 id="rdf">RDF (<span class="inline-code">0x73</span>)</h3>
+			<p><span class="inline-code">addr: u64</span>, <span class="inline-code">size: u64</span>, <span class="inline-code">fd: u64</span> → <span class="inline-code">ok: bool</span></p>
+
 			<p>
-				Read a byte from a file. First, the file descriptor is popped off the stack, then
-				the size (in bytes) of the read, and then the address of buffer to read into.
-				If there was an error while reading, or the EOF was reached,
-				<span class="inline-code">0</span>
-				is pushed onto the
-				stack. Otherwise
-				<span class="inline-code">1</span>
-				is pushed.
+				Read a byte from a file.
+				<span class="inline-code">fd</span>
+				is the file descriptor of the file to read from,
+				<span class="inline-code">size</span>
+				is the amount of the bytes to read and
+				<span class="inline-code">addr</span>
+				is the address of the byte buffer to read into.
+				If an error occured or the EOF was reached,
+				<span class="inline-code">ok</span>
+				is false, otherwise its true.
 			</p>
 
 			<h3 id="szf">SZF (<span class="inline-code">0x74</span>)</h3>
+			<p><span class="inline-code">fd: u64</span> → <span class="inline-code">size: u64</span></p>
+
 			<p>
-				Get the file size. The file descriptor is popped off the stack, and the size is
-				pushed onto the stack.
+				Get the file size.
+				<span class="inline-code">fd</span>
+				is the file descriptor of the file,
+				<span class="inline-code">size</span>
+				is the size of the file.
 			</p>
 
 			<h2 id="arithmetic">Arithmetic</h2>
 
 			<h3 id="add">ADD (<span class="inline-code">0x20</span>)</h3>
+			<p><span class="inline-code">a: u64</span>, <span class="inline-code">b: u64</span> → <span class="inline-code">result: u64</span></p>
+
 			<p>
-				Adds together two integers. Second integer is popped off the top of the stack, and
-				then the first one. The result is pushed onto the stack.
+				Adds together
+				<span class="inline-code">a</span>
+				and
+				<span class="inline-code">b</span>.
+				<span class="inline-code">result</span>
+				is the result of this operation.
 			</p>
 
 			<h3 id="sub">SUB (<span class="inline-code">0x21</span>)</h3>
+			<p><span class="inline-code">a: u64</span>, <span class="inline-code">b: u64</span> → <span class="inline-code">result: u64</span></p>
+
 			<p>
 				Similar to the
 				<a href="#add">ADD</a>
-				instruction, except this subtracts two integers.
+				instruction, except this subtracts.
 			</p>
 
 			<h3 id="mul">MUL (<span class="inline-code">0x22</span>)</h3>
+			<p><span class="inline-code">a: u64</span>, <span class="inline-code">b: u64</span> → <span class="inline-code">result: u64</span></p>
+
 			<p>
 				Similar to the
 				<a href="#add">ADD</a>
-				instruction, except this subtracts two integers.
+				instruction, except this multiplies.
 			</p>
 
 			<h3 id="div">DIV (<span class="inline-code">0x23</span>)</h3>
+			<p><span class="inline-code">a: u64</span>, <span class="inline-code">b: u64</span> → <span class="inline-code">result: u64</span></p>
+
 			<p>
 				Similar to the
 				<a href="#add">ADD</a>
-				instruction, except this divides two integers.
+				instruction, except this divides.
 			</p>
 
 			<h3 id="mod">MOD (<span class="inline-code">0x24</span>)</h3>
+			<p><span class="inline-code">a: u64</span>, <span class="inline-code">b: u64</span> → <span class="inline-code">result: u64</span></p>
+
 			<p>
 				Similar to the
 				<a href="#add">ADD</a>
-				instruction, except this is modulus
+				instruction, except this is the modulus operation.
 			</p>
 
 			<h3 id="inc">INC (<span class="inline-code">0x25</span>)</h3>
+			<p><span class="inline-code">num: u64</span> → <span class="inline-code">incremented: u64</span></p>
+
 			<p>
-				Increments the top of the stack as an integer by 1
+				Increments
+				<span class="inline-code">num</span>
+				by 1.
+				<span class="inline-code">incremented</span>
+				is the incremented
+				<span class="inline-code">num</span>.
 			</p>
 
 			<h3 id="dec">DEC (<span class="inline-code">0x26</span>)</h3>
+			<p><span class="inline-code">num: u64</span> → <span class="inline-code">decremented: u64</span></p>
+
 			<p>
-				Decrements the top of the stack as an integer by 1
+				Decrements
+				<span class="inline-code">num</span>
+				by 1.
+				<span class="inline-code">decremented</span>
+				is the decremented
+				<span class="inline-code">num</span>.
 			</p>
 
 			<h3 id="fad">FAD (<span class="inline-code">0x27</span>)</h3>
+			<p><span class="inline-code">a: f64</span>, <span class="inline-code">b: f64</span> → <span class="inline-code">result: f64</span></p>
+
 			<p>
 				Same as the
 				<a href="#add">ADD</a>
@@ -462,6 +606,8 @@
 			</p>
 
 			<h3 id="fsb">FSB (<span class="inline-code">0x28</span>)</h3>
+			<p><span class="inline-code">a: f64</span>, <span class="inline-code">b: f64</span> → <span class="inline-code">result: f64</span></p>
+
 			<p>
 				Same as the
 				<a href="#sub">SUB</a>
@@ -469,6 +615,8 @@
 			</p>
 
 			<h3 id="fmu">FMU (<span class="inline-code">0x29</span>)</h3>
+			<p><span class="inline-code">a: f64</span>, <span class="inline-code">b: f64</span> → <span class="inline-code">result: f64</span></p>
+
 			<p>
 				Same as the
 				<a href="#mul">MUL</a>
@@ -476,6 +624,8 @@
 			</p>
 
 			<h3 id="fdi">FDI (<span class="inline-code">0x2a</span>)</h3>
+			<p><span class="inline-code">a: f64</span>, <span class="inline-code">b: f64</span> → <span class="inline-code">result: f64</span></p>
+
 			<p>
 				Same as the
 				<a href="#div">DIV</a>
@@ -483,6 +633,8 @@
 			</p>
 
 			<h3 id="fin">FIN (<span class="inline-code">0x2b</span>)</h3>
+			<p><span class="inline-code">num: f64</span> → <span class="inline-code">incremented: f64</span></p>
+
 			<p>
 				Same as the
 				<a href="#inc">INC</a>
@@ -490,6 +642,8 @@
 			</p>
 
 			<h3 id="fde">FDE (<span class="inline-code">0x2c</span>)</h3>
+			<p><span class="inline-code">num: f64</span> → <span class="inline-code">decremented: f64</span></p>
+
 			<p>
 				Same as the
 				<a href="#dec">DEC</a>
@@ -497,203 +651,289 @@
 			</p>
 
 			<h3 id="neg">NEG (<span class="inline-code">0x2d</span>)</h3>
+			<p><span class="inline-code">num: i64</span> → <span class="inline-code">result: i64</span></p>
+
 			<p>
-				Negates the top of the stack
+				<span class="inline-code">num</span>
+				is
+				<span class="inline-code">result</span>
+				negated.
 			</p>
 
 			<h2 id="logic">Logic</h2>
 
 			<h3 id="jmp">JMP (<span class="inline-code">0x30</span>)</h3>
+			<p><span class="inline-code">-</span> → <span class="inline-code">-</span></p>
+
 			<p>
 				Jumps to an instruction. The address of the instruction to jump to is the parameter
 				of the instruction.
 			</p>
 
 			<h3 id="jnz">JNZ (<span class="inline-code">0x31</span>)</h3>
+			<p><span class="inline-code">condition: bool</span> → <span class="inline-code">-</span></p>
+
 			<p>
 				Similar to the
 				<a href="#jmp">JMP</a>
-				instruction, except this pops off the top of the stack and only jumps if its not
-				equal to zero.
+				instruction, but jumps only if
+				<span class="inline-code">condition</span>
+				is not false.
 			</p>
 
 			<h3 id="cal">CAL (<span class="inline-code">0x38</span>)</h3>
+			<p><span class="inline-code">-</span> → <span class="inline-code">-</span></p>
+
 			<p>
 				Similar to the
 				<a href="#jmp">JMP</a>
 				instruction, but this also pushes the address of where to return (the next
-				instruction) onto the call stack
+				instruction) onto the call stack.
 			</p>
 
 			<h3 id="ret">RET (<span class="inline-code">0x39</span>)</h3>
+			<p><span class="inline-code">-</span> → <span class="inline-code">-</span></p>
+
 			<p>
-				Pop off the top address of the call stack and jump to it
+				Pops off the top address of the call stack and jumps to it.
 			</p>
 
 			<h3 id="equ">EQU (<span class="inline-code">0x32</span>)</h3>
+			<p><span class="inline-code">a: i64</span>, <span class="inline-code">b: i64</span> → <span class="inline-code">result: bool</span></p>
+
 			<p>
-				Checks if two signed integers are equal. The second integer is popped off the top
-				of the stack, and then the first one.
+				Checks if
+				<span class="inline-code">a</span>
+				is equal to
+				<span class="inline-code">b</span>.
+				If it is,
+				<span class="inline-code">result</span>
+				is true.
 			</p>
 
 			<h3 id="neq">NEQ (<span class="inline-code">0x33</span>)</h3>
+			<p><span class="inline-code">a: i64</span>, <span class="inline-code">b: i64</span> → <span class="inline-code">result: bool</span></p>
+
 			<p>
 				Similar to the
 				<a href="#equ">EQU</a>
-				instruction, except this checks if the integers are not equal
+				instruction, except this checks if the integers are not equal.
 			</p>
 
 			<h3 id="grt">GRT (<span class="inline-code">0x34</span>)</h3>
+			<p><span class="inline-code">a: i64</span>, <span class="inline-code">b: i64</span> → <span class="inline-code">result: bool</span></p>
+
 			<p>
 				Similar to the
 				<a href="#equ">EQU</a>
-				instruction, except this checks if the first integer is greater than the second one
+				instruction, except this checks if
+				<span class="inline-code">a</span>
+				is greater than
+				<span class="inline-code">b</span>.
 			</p>
 
 			<h3 id="geq">GEQ (<span class="inline-code">0x35</span>)</h3>
+			<p><span class="inline-code">a: i64</span>, <span class="inline-code">b: i64</span> → <span class="inline-code">result: bool</span></p>
+
 			<p>
 				Similar to the
 				<a href="#equ">EQU</a>
-				instruction, except this checks if the first integer is greater than or equal to
-				the second one
+				instruction, except this checks if
+				<span class="inline-code">a</span>
+				is greater than or equal to
+				<span class="inline-code">b</span>.
 			</p>
 
 			<h3 id="les">LES (<span class="inline-code">0x36</span>)</h3>
+			<p><span class="inline-code">a: i64</span>, <span class="inline-code">b: i64</span> → <span class="inline-code">result: bool</span></p>
+
 			<p>
 				Similar to the
 				<a href="#equ">EQU</a>
-				instruction, except this checks if the first integer is less than the second one
+				instruction, except this checks if
+				<span class="inline-code">a</span>
+				is less than
+				<span class="inline-code">b</span>.
 			</p>
 
 			<h3 id="leq">LEQ (<span class="inline-code">0x37</span>)</h3>
+			<p><span class="inline-code">a: i64</span>, <span class="inline-code">b: i64</span> → <span class="inline-code">result: bool</span></p>
+
 			<p>
 				Similar to the
 				<a href="#equ">EQU</a>
-				instruction, except this checks if the first integer is less than or equal to
-				the second one
+				instruction, except this checks if
+				<span class="inline-code">a</span>
+				is less than or equal to
+				<span class="inline-code">b</span>.
 			</p>
 
 			<h3 id="ueq">UEQ (<span class="inline-code">0x3a</span>)</h3>
+			<p><span class="inline-code">a: u64</span>, <span class="inline-code">b: u64</span> → <span class="inline-code">result: bool</span></p>
+
 			<p>
 				Same as the
 				<a href="#equ">EQU</a>
-				instruction, except this compares two unsigned integers
+				instruction, except this compares two unsigned integers.
 			</p>
 
 			<h3 id="une">UNE (<span class="inline-code">0x3b</span>)</h3>
+			<p><span class="inline-code">a: u64</span>, <span class="inline-code">b: u64</span> → <span class="inline-code">result: bool</span></p>
+
 			<p>
 				Same as the
 				<a href="#neq">NEQ</a>
-				instruction, except this compares two unsigned integers
+				instruction, except this compares two unsigned integers.
 			</p>
 
 			<h3 id="ugr">UGR (<span class="inline-code">0x3c</span>)</h3>
+			<p><span class="inline-code">a: u64</span>, <span class="inline-code">b: u64</span> → <span class="inline-code">result: bool</span></p>
+
 			<p>
 				Same as the
 				<a href="#grt">GRT</a>
-				instruction, except this compares two unsigned integers
+				instruction, except this compares two unsigned integers.
 			</p>
 
 			<h3 id="ugq">UGQ (<span class="inline-code">0x3d</span>)</h3>
+			<p><span class="inline-code">a: u64</span>, <span class="inline-code">b: u64</span> → <span class="inline-code">result: bool</span></p>
+
 			<p>
 				Same as the
 				<a href="#geq">GEQ</a>
-				instruction, except this compares two unsigned integers
+				instruction, except this compares two unsigned integers.
 			</p>
 
 			<h3 id="ule">ULE (<span class="inline-code">0x3e</span>)</h3>
+			<p><span class="inline-code">a: u64</span>, <span class="inline-code">b: u64</span> → <span class="inline-code">result: bool</span></p>
+
 			<p>
 				Same as the
 				<a href="#les">LES</a>
-				instruction, except this compares two unsigned integers
+				instruction, except this compares two unsigned integers.
 			</p>
 
 			<h3 id="ulq">ULQ (<span class="inline-code">0x3f</span>)</h3>
+			<p><span class="inline-code">a: u64</span>, <span class="inline-code">b: u64</span> → <span class="inline-code">result: bool</span></p>
+
 			<p>
 				Same as the
 				<a href="#leq">LEQ</a>
-				instruction, except this compares two unsigned integers
+				instruction, except this compares two unsigned integers.
 			</p>
 
 			<h3 id="feq">FEQ (<span class="inline-code">0x40</span>)</h3>
+			<p><span class="inline-code">a: f64</span>, <span class="inline-code">b: f64</span> → <span class="inline-code">result: bool</span></p>
+
 			<p>
 				Same as the
 				<a href="#equ">EQU</a>
-				instruction, except this compares two floating point numbers
+				instruction, except this compares two floating point numbers.
 			</p>
 
 			<h3 id="fne">FNE (<span class="inline-code">0x41</span>)</h3>
+			<p><span class="inline-code">a: f64</span>, <span class="inline-code">b: f64</span> → <span class="inline-code">result: bool</span></p>
+
 			<p>
 				Same as the
 				<a href="#neq">NEQ</a>
-				instruction, except this compares two floating point numbers
+				instruction, except this compares two floating point numbers.
 			</p>
 
 			<h3 id="fgr">FGR (<span class="inline-code">0x42</span>)</h3>
+			<p><span class="inline-code">a: f64</span>, <span class="inline-code">b: f64</span> → <span class="inline-code">result: bool</span></p>
+
 			<p>
 				Same as the
 				<a href="#grt">GRT</a>
-				instruction, except this compares two floating point numbers
+				instruction, except this compares two floating point numbers.
 			</p>
 
 			<h3 id="fgq">FGQ (<span class="inline-code">0x43</span>)</h3>
+			<p><span class="inline-code">a: f64</span>, <span class="inline-code">b: f64</span> → <span class="inline-code">result: bool</span></p>
+
 			<p>
 				Same as the
 				<a href="#geq">GEQ</a>
-				instruction, except this compares two floating point numbers
+				instruction, except this compares two floating point numbers.
 			</p>
 
 			<h3 id="fle">FLE (<span class="inline-code">0x44</span>)</h3>
+			<p><span class="inline-code">a: f64</span>, <span class="inline-code">b: f64</span> → <span class="inline-code">result: bool</span></p>
+
 			<p>
 				Same as the
 				<a href="#les">LES</a>
-				instruction, except this compares two floating point numbers
+				instruction, except this compares two floating point numbers.
 			</p>
 
 			<h3 id="flq">FLQ (<span class="inline-code">0x45</span>)</h3>
+			<p><span class="inline-code">a: f64</span>, <span class="inline-code">b: f64</span> → <span class="inline-code">result: bool</span></p>
+
 			<p>
 				Same as the
 				<a href="#leq">LEQ</a>
-				instruction, except this compares two floating point numbers
+				instruction, except this compares two floating point numbers.
 			</p>
 
 			<h3 id="not">NOT (<span class="inline-code">0x2e</span>)</h3>
+			<p><span class="inline-code">data: bool</span> → <span class="inline-code">result: bool</span></p>
+
 			<p>
-				If the top of the stack is 0, it sets it to 1. Else it sets it to 0
+				If
+				<span class="inline-code">data</span>
+				is
+				false,
+				<span class="inline-code">result</span>
+				is true, otherwise its false.
 			</p>
 
 			<h2 id="debug">Debug</h2>
+			<p><span class="inline-code">-</span> → <span class="inline-code">-</span></p>
+
 			<p>
 				These instructions are unreliable, because they might not exist for long, since
 				they are just for debugging.
 			</p>
 
 			<h3 id="dmp">DMP (<span class="inline-code">0xF0</span>)</h3>
+			<p><span class="inline-code">-</span> → <span class="inline-code">-</span></p>
+
 			<p>
 				Dumps the registers, stack, call stack and the current instruction address
 			</p>
 
 			<h3 id="prt">PRT (<span class="inline-code">0xF1</span>)</h3>
+			<p><span class="inline-code">data: i64</span> → <span class="inline-code">-</span></p>
+
 			<p>
-				Pops off the top of the stack and prints it as a signed integer, adding a new line
-				after
+				Prints out
+				<span class="inline-code">data</span>
+				into stdout.
 			</p>
 
 			<h3 id="fpr">FPR (<span class="inline-code">0xF2</span>)</h3>
+			<p><span class="inline-code">data: f64</span> → <span class="inline-code">-</span></p>
+
 			<p>
-				Pops off the top of the stack and prints it as a floating point number, adding a
-				new line after
+				Same as the
+				<a href="#prt">PRT</a>
+				instruction, but for floating point numbers.
 			</p>
 
 			<h2 id="other">Other</h2>
 
 			<h3 id="hlt">HLT (<span class="inline-code">0xFF</span>)</h3>
+			<p><span class="inline-code">ex: u64</span> → <span class="inline-code">-</span></p>
+
 			<p>
-				Halts the virtual machine. Pops off the top of the stack and uses it as the program
-				exitcode
+				Halts the virtual machine and returns with exitcode
+				<span class="inline-code">ex</span>.
 			</p>
 
 			<h3 id="nop">NOP (<span class="inline-code">0x00</span>)</h3>
+			<p><span class="inline-code">-</span> → <span class="inline-code">-</span></p>
+
 			<p>
 				Does nothing.
 			</p>

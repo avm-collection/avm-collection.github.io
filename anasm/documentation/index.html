@@ -39,7 +39,9 @@
 						<li class="content"><a href="#entry-point-label">Entry point label</a></li>
 					</ul>
 				</li>
+				<li class="content"><a href="#constant-expressions">Constant expressions</a></li>
 				<li class="content"><a href="#variables">Variables</a></li>
+				<li class="content"><a href="#macros">Macros</a></li>
 				<li class="content"><a href="#comments">Comments</a></li>
 				<li class="content"><a href="#examples">Examples</a></li>
 			</ul>
@@ -217,11 +219,9 @@
 			<p>
 				This label holds the address of the
 				<span class="inline-code">psh</span>
-				instruction right below it. To use this labels address, we reference it using the
-				<span class="inline-code">@</span>
-				prefix
+				instruction right below it. Example of using the label:
 			</p>
-			<pre><code>jmp @my_label</code></pre>
+			<pre><code>jmp my_label</code></pre>
 			<p>
 				Label names can only contain lower case or upper case ASCII letters, digits,
 				<span class="inline-code">_</span>
@@ -238,6 +238,71 @@
 				This label marks the start of the program - where the program will begin executing.
 			</p>
 
+			<h1 id="constant-expressions">Constant expressions</h1>
+			<p>
+				Constant expressions allow you to do calculations which will be evaluated at
+				compile time. Instead of using a calculator to divide 8 by 2, you can use a
+				constant expression to calculate it. The syntax is similar to lisp:
+			</p>
+			<pre><code>(OPERATOR PARAMS)</code></pre>
+			<p>
+				where
+				<span class="inline-code">OPERATOR</span>
+				is one of the available operators to use, and
+				<span class="inline-code">PARAM</span>
+				are its parameters. See the table of operations
+			</p>
+			<table>
+				<tr>
+					<th>Operation</th>
+					<th>Description</th>
+				</tr>
+				<tr>
+					<td><span class="inline-code">+</span></td>
+					<td>Takes any amount of parameters and adds them together</td>
+				</tr>
+				<tr>
+					<td><span class="inline-code">-</span></td>
+					<td>Takes any amount of parameters and subtracts them</td>
+				</tr>
+				<tr>
+					<td><span class="inline-code">*</span></td>
+					<td>Takes any amount of parameters and multiplies them</td>
+				</tr>
+				<tr>
+					<td><span class="inline-code">/</span></td>
+					<td>Takes any amount of parameters and divides them</td>
+				</tr>
+				<tr>
+					<td><span class="inline-code">%</span></td>
+					<td>Takes any amount of parameters and performs modulus on them</td>
+				</tr>
+				<tr>
+					<td><span class="inline-code">sizeof</span></td>
+					<td>Takes one parameter, which can be either a type or a variable, and returns its size</td>
+				</tr>
+			</table>
+			<p>
+				The true power of constant expressions comes with using them to calculate an offset
+				of a
+				<a href="#variables">variable</a>,
+				for example:
+			</p>
+			<pre><code>let NUMS byte = 5, 12
+
+.entry
+	psh (+ NUMS 1)
+	r08
+	prt</code></pre>
+			<p>
+				This example would print
+				<span class="inline-code">12</span>.
+			</p>
+			<p>
+				Nested constant expressions are also allowed:
+			</p>
+			<pre><code>prt (+ (+ 5 5) 2)</code></pre>
+
 			<h1 id="variables">Variables</h1>
 			<p>
 				Being able to write data to memory is nice, but manually keeping track of all the
@@ -249,16 +314,16 @@
 			<p>
 				The syntax of the keyword is
 			</p>
-			<pre><code>let NAME ELEMENT_SIZE DATA</code></pre>
+			<pre><code>let NAME TYPE = DATA</code></pre>
 			<p>
 				where
 				<span class="inline-code">NAME</span>
 				is the name of the variable that we will use to reference it (variable names can
 				only contain the same characters as label names),
-				<span class="inline-code">ELEMENT_SIZE</span>
-				is the size of a single element and
+				<span class="inline-code">TYPE</span>
+				is the type (size) of a single element and
 				<span class="inline-code">DATA</span>
-				is a list of the data it holds. The possible element sizes are below
+				is a list of the data it holds. The available types are below
 			</p>
 			<table>
 				<tr>
@@ -266,19 +331,27 @@
 					<th>Size (in bytes)</th>
 				</tr>
 				<tr>
-					<td><span class="inline-code">sz8</span></td>
+					<td><span class="inline-code">char</span></td>
 					<td>1</td>
 				</tr>
 				<tr>
-					<td><span class="inline-code">sz16</span></td>
+					<td><span class="inline-code">byte</span></td>
+					<td>1</td>
+				</tr>
+				<tr>
+					<td><span class="inline-code">i16</span></td>
 					<td>2</td>
 				</tr>
 				<tr>
-					<td><span class="inline-code">sz32</span></td>
+					<td><span class="inline-code">i32</span></td>
 					<td>4</td>
 				</tr>
 				<tr>
-					<td><span class="inline-code">sz64</span></td>
+					<td><span class="inline-code">i64</span></td>
+					<td>8</td>
+				</tr>
+				<tr>
+					<td><span class="inline-code">f64</span></td>
 					<td>8</td>
 				</tr>
 			</table>
@@ -289,7 +362,7 @@
 				<a href="#literals">literals</a>
 				(including strings). Example of a valid variable
 			</p>
-			<pre><code> let ABC sz8 'a', 'b', 'c'</code></pre>
+			<pre><code> let ABC char = 'a', 'b', 'c'</code></pre>
 			<p>
 				This variable will be 3 bytes in total, because it contains 3 data elements each of
 				the size 1 byte
@@ -297,13 +370,31 @@
 			</p>
 			<p>
 				Using the variables data addresses is the same as with
-				<a href="#labels">labels</a>,
-				prefixed with a
-				<span class="inline-code">@</span>
+				<a href="#labels">labels</a>.
 			</p>
 			<pre><code>psh @ABC
 r08
 prt</code></pre>
+
+			<h1 id="macros">Macros</h1>
+			<p>
+				Macros are made to eliminate magic numbers. They are identifiers tied to
+				a value, and when they are used somewhere, they are replaced by that value
+				during compilation. The syntax of a macro definition is
+			</p>
+			<pre><code>mac NAME = DATA</code></pre>
+			<p>
+				where
+				<span class="inline-code">NAME</span>
+				is the name of the macro and
+				<span class="inline-code">DATA</span>
+				is the value it will be replaced with. Example:
+			</p>
+			<pre><code>mac FIVE_PLUS_TWO = (+ 5 2)
+
+.entry
+	psh FIVE_PLUS_TWO
+	prt</code></pre>
 
 			<h1 id="comments">Comments</h1>
 			<p>
