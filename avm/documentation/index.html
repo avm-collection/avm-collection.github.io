@@ -48,8 +48,8 @@
 								<li class="content"><a href="#w32">W32</a></li>
 								<li class="content"><a href="#w64">W64</a></li>
 
-								<li class="content"><a href="#set">W64</a></li>
-								<li class="content"><a href="#cpy">W64</a></li>
+								<li class="content"><a href="#set">SET</a></li>
+								<li class="content"><a href="#cpy">CPY</a></li>
 							</ul>
 						</li>
 						<li class="content"><a href="#file-operations">File operations</a>
@@ -401,7 +401,7 @@
 				instruction, except this writes 2 bytes.
 			</p>
 
-			<h3 id="w32">W32 (<span class="inline-code">0x65</span>)</h3>
+			<h3 id="w32">W32 (<span class="inline-code">0x66</span>)</h3>
 			<p><span class="inline-code">addr: u64</span>, <span class="inline-code">data: any</span> → <span class="inline-code">-</span></p>
 
 			<p>
@@ -410,13 +410,37 @@
 				instruction, except this writes 4 bytes.
 			</p>
 
-			<h3 id="w64">W64 (<span class="inline-code">0x65</span>)</h3>
+			<h3 id="w64">W64 (<span class="inline-code">0x67</span>)</h3>
 			<p><span class="inline-code">addr: u64</span>, <span class="inline-code">data: any</span> → <span class="inline-code">-</span></p>
 
 			<p>
 				Similar to the
 				<a href="#w08">W08</a>
 				instruction, except this writes 8 bytes.
+			</p>
+
+			<h3 id="set">SET (<span class="inline-code">0x53</span>)</h3>
+			<p><span class="inline-code">addr: u64</span>, <span class="inline-code">val: any</span>, <span class="inline-code">size: u64</span> → <span class="inline-code">-</span></p>
+
+			<p>
+				Set memory at
+				<span class="inline-code">addr</span>
+				of size
+				<span class="inline-code">size</span>
+				to
+				<span class="inline-code">val</span>.
+			</p>
+
+			<h3 id="cpy">CPY (<span class="inline-code">0x54</span>)</h3>
+			<p><span class="inline-code">to: u64</span>, <span class="inline-code">from: any</span>, <span class="inline-code">size: u64</span> → <span class="inline-code">-</span></p>
+
+			<p>
+				Copy memory of size
+				<span class="inline-code">size</span>
+				from
+				<span class="inline-code">from</span>
+				to
+				<span class="inline-code">to</span>.
 			</p>
 
 			<h2 id="file-operations">File operations</h2>
