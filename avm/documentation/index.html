@@ -81,6 +81,14 @@
 								<li class="content"><a href="#neg">NEG</a></li>
 							</ul>
 						</li>
+						<li class="content"><a href="#bit-operations">Bit operations</a>
+							<ul>
+								<li class="content"><a href="#ban">BAN</a></li>
+								<li class="content"><a href="#bor">BOR</a></li>
+								<li class="content"><a href="#bsr">BSR</a></li>
+								<li class="content"><a href="#bsl">BSL</a></li>
+							</ul>
+						</li>
 						<li class="content"><a href="#logic">Logic</a>
 							<ul>
 								<li class="content"><a href="#jmp">JMP</a></li>
@@ -110,6 +118,8 @@
 								<li class="content"><a href="#flq">FLQ</a></li>
 
 								<li class="content"><a href="#not">NOT</a></li>
+								<li class="content"><a href="#and">AND</a></li>
+								<li class="content"><a href="#orr">ORR</a></li>
 							</ul>
 						</li>
 						<li class="content"><a href="#debug">Debug</a>
@@ -557,7 +567,7 @@
 				and
 				<span class="inline-code">b</span>.
 				<span class="inline-code">result</span>
-				is the result of this operation.
+				is the result.
 			</p>
 
 			<h3 id="sub">SUB (<span class="inline-code">0x21</span>)</h3>
@@ -678,10 +688,66 @@
 			<p><span class="inline-code">num: i64</span> → <span class="inline-code">result: i64</span></p>
 
 			<p>
-				<span class="inline-code">num</span>
-				is
 				<span class="inline-code">result</span>
+				is
+				<span class="inline-code">num</span>
 				negated.
+			</p>
+
+			<h2 id="bit-operations">Bit operations</h2>
+
+			<h3 id="ban">BAN (<span class="inline-code">0x30</span>)</h3>
+			<p><span class="inline-code">a: any</span>, <span class="inline-code">b: any</span> → <span class="inline-code">result: any</span></p>
+
+			<p>
+				Performs the
+				<span class="inline-code">bit and</span>
+				operation on
+				<span class="inline-code">a</span>
+				and
+				<span class="inline-code">b</span>.
+				<span class="inline-code">result</span>
+				is the result.
+			</p>
+
+			<h3 id="bor">BOR (<span class="inline-code">0x30</span>)</h3>
+			<p><span class="inline-code">a: any</span>, <span class="inline-code">b: any</span> → <span class="inline-code">result: any</span></p>
+
+			<p>
+				Performs the
+				<span class="inline-code">bit or</span>
+				operation on
+				<span class="inline-code">a</span>
+				and
+				<span class="inline-code">b</span>.
+				<span class="inline-code">result</span>
+				is the result.
+			</p>
+
+			<h3 id="bsr">BSR (<span class="inline-code">0x30</span>)</h3>
+			<p><span class="inline-code">data: any</span>, <span class="inline-code">by: any</span> → <span class="inline-code">result: any</span></p>
+
+			<p>
+				Bit shifts
+				<span class="inline-code">data</span>
+				to the right by
+				<span class="inline-code">by</span>
+				bits.
+				<span class="inline-code">result</span>
+				is the result.
+			</p>
+
+			<h3 id="bsl">BSL (<span class="inline-code">0x30</span>)</h3>
+			<p><span class="inline-code">data: any</span>, <span class="inline-code">by: any</span> → <span class="inline-code">result: any</span></p>
+
+			<p>
+				Bit shifts
+				<span class="inline-code">data</span>
+				to the left by
+				<span class="inline-code">by</span>
+				bits.
+				<span class="inline-code">result</span>
+				is the result.
 			</p>
 
 			<h2 id="logic">Logic</h2>
@@ -910,6 +976,34 @@
 				false,
 				<span class="inline-code">result</span>
 				is true, otherwise its false.
+			</p>
+
+			<h3 id="and">AND (<span class="inline-code">0x46</span>)</h3>
+			<p><span class="inline-code">a: bool</span>, <span class="inline-code">b: bool</span> → <span class="inline-code">result: bool</span></p>
+
+			<p>
+				Performs the boolean
+				<span class="inline-code">and</span>
+				operation on
+				<span class="inline-code">a</span>
+				and
+				<span class="inline-code">b</span>.
+				<span class="inline-code">result</span>
+				is the result.
+			</p>
+
+			<h3 id="orr">ORR (<span class="inline-code">0x47</span>)</h3>
+			<p><span class="inline-code">a: bool</span>, <span class="inline-code">b: bool</span> → <span class="inline-code">result: bool</span></p>
+
+			<p>
+				Performs the boolean
+				<span class="inline-code">or</span>
+				operation on
+				<span class="inline-code">a</span>
+				and
+				<span class="inline-code">b</span>.
+				<span class="inline-code">result</span>
+				is the result.
 			</p>
 
 			<h2 id="debug">Debug</h2>

@@ -259,27 +259,47 @@
 				</tr>
 				<tr>
 					<td><span class="inline-code">+</span></td>
-					<td>Takes any amount of parameters and adds them together</td>
+					<td>Any amount of parameters, adds them together</td>
 				</tr>
 				<tr>
 					<td><span class="inline-code">-</span></td>
-					<td>Takes any amount of parameters and subtracts them</td>
+					<td>Any amount of parameters, subtracts them</td>
 				</tr>
 				<tr>
 					<td><span class="inline-code">*</span></td>
-					<td>Takes any amount of parameters and multiplies them</td>
+					<td>Any amount of parameters, multiplies them</td>
 				</tr>
 				<tr>
 					<td><span class="inline-code">/</span></td>
-					<td>Takes any amount of parameters and divides them</td>
+					<td>Any amount of parameters, divides them</td>
 				</tr>
 				<tr>
 					<td><span class="inline-code">%</span></td>
-					<td>Takes any amount of parameters and performs modulus on them</td>
+					<td>Any amount of parameters, performs modulus on them</td>
+				</tr>
+				<tr>
+					<td><span class="inline-code">^</span></td>
+					<td>Any amount of parameters, performs power on them</td>
+				</tr>
+				<tr>
+					<td><span class="inline-code">&</span></td>
+					<td>Any amount of parameters, performs bit and on them</td>
+				</tr>
+				<tr>
+					<td><span class="inline-code">|</span></td>
+					<td>Any amount of parameters, performs bit or on them</td>
+				</tr>
+				<tr>
+					<td><span class="inline-code">>></span></td>
+					<td>Any amount of parameters, performs bit shifting to right on them</td>
+				</tr>
+				<tr>
+					<td><span class="inline-code"><<</span></td>
+					<td>Any amount of parameters, performs bit shifting to left on them</td>
 				</tr>
 				<tr>
 					<td><span class="inline-code">sizeof</span></td>
-					<td>Takes one parameter, which can be either a type or a variable, and returns its size</td>
+					<td>One parameter, which can be either a type or a variable, and returns its size</td>
 				</tr>
 			</table>
 			<p>
@@ -302,6 +322,12 @@
 				Nested constant expressions are also allowed:
 			</p>
 			<pre><code>prt (+ (+ 5 5) 2)</code></pre>
+			<p>
+				However, constant expressions do not work with floating point numbers as you would
+				expect. All simple literals are turned into words at compile time, and these
+				constant expression operators operate on them as if they were integers, because
+				they have no way of knowing what they were originally.
+			</p>
 
 			<h1 id="variables">Variables</h1>
 			<p>
