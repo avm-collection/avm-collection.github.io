@@ -6,7 +6,7 @@ body {
 
 	margin-left:  auto;
 	margin-right: auto;
-	border:  0px;
+	border:       0px;
 }
 
 table {
@@ -112,6 +112,8 @@ a:visited {
 	font-size:   18px;
 	margin-left: 10px;
 	display:     inline;
+
+	border-radius:  5px 5px 0px 0px;
 }
 
 .tab:hover {
@@ -156,9 +158,10 @@ header {
 	background:       url("./res/background.png");
 	background-size:  860px 597px;
 
-	border: 0px;
-
+	border:  0px;
 	padding: 10px 10px 0px 10px;
+
+	border-radius:  10px 10px 0px 0px;
 
 	box-shadow: 3px 3px 20px #00000066;
 }
@@ -178,6 +181,8 @@ footer {
 	border:   0px;
 	padding:  20px;
 	overflow: auto;
+
+	border-radius: 0px 0px 10px 10px;
 
 	box-shadow: 3px 3px 20px #00000066;
 }
