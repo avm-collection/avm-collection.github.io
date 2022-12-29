@@ -161,7 +161,7 @@ header {
 	border:  0px;
 	padding: 10px 10px 0px 10px;
 
-	border-radius:  10px 10px 0px 0px;
+	border-radius:  5px 5px 0px 0px;
 
 	box-shadow: 3px 3px 20px #00000066;
 }
@@ -182,7 +182,12 @@ footer {
 	padding:  20px;
 	overflow: auto;
 
-	border-radius: 0px 0px 10px 10px;
+	border-radius: 0px 0px 5px 5px;
 
 	box-shadow: 3px 3px 20px #00000066;
+}
+
+.footer-img {
+	float:         right;
+	border-radius: 5px;
 }
