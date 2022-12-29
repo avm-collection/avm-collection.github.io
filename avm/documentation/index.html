@@ -122,6 +122,15 @@
 								<li class="content"><a href="#orr">ORR</a></li>
 							</ul>
 						</li>
+						<li class="content"><a href="#shared-libraries">Shared libraries</a>
+							<ul>
+								<li class="content"><a href="#lol">LOL</a></li>
+								<li class="content"><a href="#cll">CLL</a></li>
+								<li class="content"><a href="#llf">LLF</a></li>
+								<li class="content"><a href="#ulf">ULF</a></li>
+								<li class="content"><a href="#clf">CLF</a></li>
+							</ul>
+						</li>
 						<li class="content"><a href="#debug">Debug</a>
 							<ul>
 								<li class="content"><a href="#dmp">DMP</a></li>
@@ -696,7 +705,7 @@
 
 			<h2 id="bit-operations">Bit operations</h2>
 
-			<h3 id="ban">BAN (<span class="inline-code">0x30</span>)</h3>
+			<h3 id="ban">BAN (<span class="inline-code">0x80</span>)</h3>
 			<p><span class="inline-code">a: any</span>, <span class="inline-code">b: any</span> → <span class="inline-code">result: any</span></p>
 
 			<p>
@@ -710,7 +719,7 @@
 				is the result.
 			</p>
 
-			<h3 id="bor">BOR (<span class="inline-code">0x30</span>)</h3>
+			<h3 id="bor">BOR (<span class="inline-code">0x81</span>)</h3>
 			<p><span class="inline-code">a: any</span>, <span class="inline-code">b: any</span> → <span class="inline-code">result: any</span></p>
 
 			<p>
@@ -724,7 +733,7 @@
 				is the result.
 			</p>
 
-			<h3 id="bsr">BSR (<span class="inline-code">0x30</span>)</h3>
+			<h3 id="bsr">BSR (<span class="inline-code">0x82</span>)</h3>
 			<p><span class="inline-code">data: any</span>, <span class="inline-code">by: any</span> → <span class="inline-code">result: any</span></p>
 
 			<p>
@@ -737,7 +746,7 @@
 				is the result.
 			</p>
 
-			<h3 id="bsl">BSL (<span class="inline-code">0x30</span>)</h3>
+			<h3 id="bsl">BSL (<span class="inline-code">0x83</span>)</h3>
 			<p><span class="inline-code">data: any</span>, <span class="inline-code">by: any</span> → <span class="inline-code">result: any</span></p>
 
 			<p>
@@ -1007,7 +1016,6 @@
 			</p>
 
 			<h2 id="debug">Debug</h2>
-			<p><span class="inline-code">-</span> → <span class="inline-code">-</span></p>
 
 			<p>
 				These instructions are unreliable, because they might not exist for long, since
@@ -1037,6 +1045,67 @@
 				Same as the
 				<a href="#prt">PRT</a>
 				instruction, but for floating point numbers.
+			</p>
+
+			<h2 id="shared-libraries">Shared libraries</h2>
+
+			<h3 id="lol">LOL (<span class="inline-code">0x90</span>)</h3>
+			<p><span class="inline-code">name: u64</span>, <span class="inline-code">name_len: u64</span> → <span class="inline-code">ld: u64</span></p>
+
+			<p>
+				Loads a shared library.
+				<span class="inline-code">name</span>
+				is the library path,
+				<span class="inline-code">name_len</span>
+				is the library path length,
+				<span class="inline-code">ld</span>
+				is the library ID.
+			</p>
+
+			<h3 id="cll">CLL (<span class="inline-code">0x90</span>)</h3>
+			<p><span class="inline-code">ld: u64</span> → <span class="inline-code">-</span></p>
+
+			<p>
+				Closes a shared library.
+				<span class="inline-code">ld</span>
+				is the library ID.
+			</p>
+
+			<h3 id="llf">LLF (<span class="inline-code">0x90</span>)</h3>
+			<p><span class="inline-code">name: u64</span>, <span class="inline-code">name_len: u64</span>, <span class="inline-code">ld: u64</span> → <span class="inline-code">fnd: u64</span></p>
+
+			<p>
+				Loads a shared library function.
+				<span class="inline-code">name</span>
+				is the function name,
+				<span class="inline-code">name_len</span>
+				is the function name length,
+				<span class="inline-code">ld</span>
+				is the library ID and
+				<span class="inline-code">fnd</span>
+				is the function ID.
+			</p>
+
+			<h3 id="ulf">ULF (<span class="inline-code">0x90</span>)</h3>
+			<p><span class="inline-code">fnd: u64</span>, <span class="inline-code">ld: u64</span> → <span class="inline-code">-</span></p>
+
+			<p>
+				Unloads a shared library function.
+				<span class="inline-code">fnd</span>
+				is the function ID,
+				<span class="inline-code">ld</span>
+				is the library ID.
+			</p>
+
+			<h3 id="clf">CLF (<span class="inline-code">0x90</span>)</h3>
+			<p><span class="inline-code">fnd: u64</span>, <span class="inline-code">ld: u64</span> → <span class="inline-code">-</span></p>
+
+			<p>
+				Calls a shared library function.
+				<span class="inline-code">fnd</span>
+				is the function ID,
+				<span class="inline-code">ld</span>
+				is the library ID.
 			</p>
 
 			<h2 id="other">Other</h2>

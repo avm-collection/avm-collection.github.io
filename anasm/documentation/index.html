@@ -42,6 +42,8 @@
 				<li class="content"><a href="#constant-expressions">Constant expressions</a></li>
 				<li class="content"><a href="#variables">Variables</a></li>
 				<li class="content"><a href="#macros">Macros</a></li>
+				<li class="content"><a href="#include">Include</a></li>
+				<li class="content"><a href="#embed">Embed</a></li>
 				<li class="content"><a href="#comments">Comments</a></li>
 				<li class="content"><a href="#examples">Examples</a></li>
 			</ul>
@@ -421,6 +423,41 @@ prt</code></pre>
 .entry
 	psh FIVE_PLUS_TWO
 	prt</code></pre>
+
+			<h1 id="includes">Includes</h1>
+			<p>
+				To avoid long source files, anasm provides file including. Including simply
+				copy-pastes the code of the included file into the source file. The syntax is
+			</p>
+			<pre><code>include PATH</code></pre>
+			<p>
+				where
+				<span class="inline-code">PATH</span>
+				is the path of the file to include. Example:
+			</p>
+			<pre><code>include "test.anasm"</code></pre>
+
+			<h1 id="embeds">Embeds</h1>
+			<p>
+				To eliminate the cost and annoyance of reading files at runtime, you can embed
+				the file into the programs memory at compilation. The syntax is
+			</p>
+			<pre><code>emb NAME PATH</code></pre>
+			<p>
+				where
+				<span class="inline-code">NAME</span>
+				is the name of the variable with the file contents, and
+				<span class="inline-code">PATH</span>
+				is the path of the file to embed. Example:
+			</p>
+			<pre><code>emb MY_FILE "file.txt"</code></pre>
+			<p>
+				Identifiers created by the
+				<span class="inline-code">emb</span>
+				keyword are just like variables with element type
+				<span class="inline-code">char</span>.
+				The data is not ended by a 0 or by an EOF.
+			</p>
 
 			<h1 id="comments">Comments</h1>
 			<p>
