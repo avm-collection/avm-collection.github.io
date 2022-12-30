@@ -59,6 +59,7 @@
 								<li class="content"><a href="#wrf">WRF</a></li>
 								<li class="content"><a href="#rdf">RDF</a></li>
 								<li class="content"><a href="#szf">SZF</a></li>
+								<li class="content"><a href="#flu">FLU</a></li>
 							</ul>
 						</li>
 						<li class="content"><a href="#arithmetic">Arithmetic</a>
@@ -535,7 +536,7 @@
 				is the address of the bytes in memory.
 				If an error occured,
 				<span class="inline-code">ok</span>
-				is false, otherwise its true.
+				is false, otherwise its true. Writing is buffered.
 			</p>
 
 			<h3 id="rdf">RDF (<span class="inline-code">0x73</span>)</h3>
@@ -551,7 +552,7 @@
 				is the address of the byte buffer to read into.
 				If an error occured or the EOF was reached,
 				<span class="inline-code">ok</span>
-				is false, otherwise its true.
+				is false, otherwise its true. Reading is buffered.
 			</p>
 
 			<h3 id="szf">SZF (<span class="inline-code">0x74</span>)</h3>
@@ -563,6 +564,15 @@
 				is the file descriptor of the file,
 				<span class="inline-code">size</span>
 				is the size of the file.
+			</p>
+
+			<h3 id="flu">FLU (<span class="inline-code">0x75</span>)</h3>
+			<p><span class="inline-code">fd: u64</span> → <span class="inline-code">-</span></p>
+
+			<p>
+				Flush the file buffer.
+				<span class="inline-code">fd</span>
+				is the file descriptor of the file.
 			</p>
 
 			<h2 id="arithmetic">Arithmetic</h2>
