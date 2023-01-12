@@ -39,6 +39,13 @@ td {
 	margin-bottom: 5px;
 }
 
+.highlight {
+	background-color: #f56f40;
+	color:            #222128;
+
+	display: inline-block;
+}
+
 .inline-code {
 	font-size: 15px;
 	font-weight: bold;
@@ -190,4 +197,24 @@ footer {
 .footer-img {
 	float:         right;
 	border-radius: 5px;
+}
+
+::-webkit-scrollbar {
+	width: 10px;
+}
+
+::-webkit-scrollbar-track {
+	background: #4b4e59;
+}
+
+::-webkit-scrollbar-thumb {
+	border:        2px solid #4b4e59;
+	border-radius: 5px;
+	background:    #86858f;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	border:        1px solid #4b4e59;
+	border-radius: 5px;
+	background:    #b5b5bb;
 }
