@@ -10,7 +10,7 @@
 			<h1 class="title">AVM documentation</h1>
 
 			<ul class="tabs">
-				<li class="unselected tab">
+				<li class="selected tab">
 					<a class="tab-link" href="/avm"><- Go back</a>
 				</li>
 			</ul>
@@ -230,7 +230,7 @@
 				version of AVM. Patch is usually ignored.
 			</p>
 			<p>
-				After this follow 3 words (64 bit integers) stored in the little-endian format.
+				After this follow 3 words (64 bit integers) stored in the big-endian format.
 				First one is the size of the program (the count of the instructions), second one is
 				the size of the initial memory segment (in bytes) and the third one is the entry
 				point of the program - the instruction at which the program starts.
@@ -252,7 +252,7 @@
 			<h1 id="instructions">Instructions</h1>
 			<p>
 				Instructions are 9 bytes in size. The first byte is the opcode of the instruction, and
-				the following 8 bytes is a parameter - some data again stored in the little-endian
+				the following 8 bytes is a parameter - some data again stored in the big-endian
 				format.
 			</p>
 			<p>
