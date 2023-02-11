@@ -1,4 +1,4 @@
-<h1 align="center">avm collection website</h1>
+<h1 align="center">AVM collection website</h1>
 
 <p align="center">
 	<a href="./LICENSE">
